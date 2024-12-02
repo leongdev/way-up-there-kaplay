@@ -2,5 +2,5 @@ import kaplay from "kaplay";
 import "kaplay/global";
 
 export const k = kaplay({
-    scale: 2
+  scale: 3,
 });
