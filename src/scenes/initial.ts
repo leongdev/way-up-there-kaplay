@@ -1,19 +1,12 @@
 import { loadPlayer, updateDirection } from "../objects/player/player";
 import { k } from "../settings/kaplay";
+import { postEffect } from "../settings/postEffect";
 import { Scenes } from "../utils/types";
 
 const FLOOR_HEIGHT = 48;
 const GRAVITY_DEFAULT = 2500;
 
-const effects = {
-  crt: () => ({
-    u_flatness: 3,
-  }),
-};
-
-for (const effect in effects) {
-  loadShaderURL(effect, null, `/shaders/${effect}.frag`);
-}
+let canDebug = false;
 
 k.scene(Scenes.INITIAL, () => {
   //Setup Physics
@@ -56,8 +49,8 @@ k.scene(Scenes.INITIAL, () => {
   ]);
 
   onUpdate(() => {
-    const effect = Object.keys(effects)[0];
-    usePostEffect(effect, effects[effect]());
+    postEffect();
+    debug.inspect = canDebug;
   });
 
   player.onUpdate(() => {
@@ -68,5 +61,9 @@ k.scene(Scenes.INITIAL, () => {
     if (player.isColliding(rightWall)) {
       updateDirection(-1);
     }
+  });
+
+  onKeyPress("r", () => {
+    canDebug = !canDebug;
   });
 });

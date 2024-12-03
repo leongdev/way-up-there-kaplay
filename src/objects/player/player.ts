@@ -21,8 +21,10 @@ export function loadPlayer(posX: number, posY: number): GameObj {
   const player = k.add([
     k.sprite(Objects.PLAYER),
     pos(Vec2.fromArray([posX, posY])),
-    anchor("center"),
-    area(),
+    anchor("bot"),
+    area({
+      shape: new Rect(vec2(0, 0), 12, 21),
+    }),
     body(),
   ]);
 
