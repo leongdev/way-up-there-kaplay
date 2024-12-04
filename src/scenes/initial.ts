@@ -1,6 +1,6 @@
 import { loadPlayer, updateDirection } from "../objects/player/player";
 import { k } from "../settings/kaplay";
-import { postEffect } from "../settings/postEffect";
+import { useCustomPostEffect } from "../settings/postEffect";
 import { Scenes } from "../utils/types";
 
 const FLOOR_HEIGHT = 48;
@@ -14,6 +14,10 @@ k.scene(Scenes.INITIAL, () => {
 
   //Load Objects
   const player = loadPlayer(80, 80);
+
+  onKeyPress("f", () => {
+    setFullscreen(!isFullscreen());
+  });
 
   // floor
   add([
@@ -49,8 +53,8 @@ k.scene(Scenes.INITIAL, () => {
   ]);
 
   onUpdate(() => {
-    postEffect();
     debug.inspect = canDebug;
+    useCustomPostEffect();
   });
 
   player.onUpdate(() => {
