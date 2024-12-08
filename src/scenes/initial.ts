@@ -4,6 +4,7 @@ import { useCustomPostEffect } from "../hooks/useCustomPostEffect";
 import { useDebugger } from "../hooks/useDebugger";
 import { useFullScreen } from "../hooks/useFullScreen";
 import { levelConfig } from "../levels/level_1/config";
+import { getGrass, GrassType } from "../objects/grass/grass";
 import { getPlayer } from "../objects/player/player";
 import { getStair } from "../objects/stair/stair";
 import { k } from "../settings/kaplay";
@@ -30,4 +31,7 @@ k.scene(Scenes.INITIAL, () => {
   getStair(new Vec2(353, 72), "sprites/stair_c.png");
 
   const player = getPlayer(new Vec2(205, 173));
+
+  getGrass(new Vec2(240, 248), GrassType.A, player);
+  getGrass(new Vec2(258, 249), GrassType.B, player);
 });
