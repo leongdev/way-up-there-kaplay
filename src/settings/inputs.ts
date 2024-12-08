@@ -10,26 +10,17 @@ export const InputConfig = {
   right: ["right", "d"],
   up: ["up", "w"],
   down: ["down", "s"],
+  fire: ["space", "e"],
 };
 
 export const isKeyHorizontalDown = () => {
-  const isLeftDown =
-    k.isKeyDown(InputConfig.left[0]) || k.isKeyDown(InputConfig.left[1]);
-
-  const isRightDown =
-    k.isKeyDown(InputConfig.right[0]) || k.isKeyDown(InputConfig.right[1]);
-
-  return isLeftDown || isRightDown;
+  const horizontalKeys = [...InputConfig.left, ...InputConfig.right];
+  return horizontalKeys.some((key) => k.isKeyDown(key));
 };
 
 export const isKeyVerticalDown = () => {
-  const isUpDown =
-    k.isKeyDown(InputConfig.up[0]) || k.isKeyDown(InputConfig.up[1]);
-
-  const isDownDown =
-    k.isKeyDown(InputConfig.down[0]) || k.isKeyDown(InputConfig.down[1]);
-
-  return isUpDown || isDownDown;
+  const verticalKeys = [...InputConfig.up, ...InputConfig.down];
+  return verticalKeys.some((key) => k.isKeyDown(key));
 };
 
 export const onInputHorizontal = (
