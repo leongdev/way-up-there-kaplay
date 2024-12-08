@@ -1,25 +1,33 @@
 import { useBackground } from "../hooks/useBackground";
+import { useColliders } from "../hooks/useColliders";
+import { useCustomPostEffect } from "../hooks/useCustomPostEffect";
 import { useDebugger } from "../hooks/useDebugger";
 import { useFullScreen } from "../hooks/useFullScreen";
-import { k } from "../settings/kaplay";
-import { useCustomPostEffect } from "../hooks/useCustomPostEffect";
-import { Scenes } from "../utils/types";
-import { useColliders } from "../hooks/useColliders";
 import { levelConfig } from "../levels/level_1/config";
+import { getPlayer } from "../objects/player/player";
+import { getStair } from "../objects/stair/stair";
+import { k } from "../settings/kaplay";
+import { Scenes } from "../utils/types";
 
-const FLOOR_HEIGHT = 48;
-const GRAVITY_DEFAULT = 2500;
+const GRAVITY_DEFAULT = 2000;
 
 k.scene(Scenes.INITIAL, () => {
   //Hooks
   useFullScreen("f");
   useDebugger("r");
   useCustomPostEffect("g");
-  useBackground("world", vec2(0, 0), "../../public/sprites/world.png");
+  useBackground("world", vec2(0, 0), "sprites/world.png");
 
   //Setup Physics
   setGravity(GRAVITY_DEFAULT);
 
   //Colliders
   useColliders(levelConfig);
+
+  //Objects
+  getStair(new Vec2(417, 136), "sprites/stair_a.png");
+  getStair(new Vec2(225, 184), "sprites/stair_b.png");
+  getStair(new Vec2(353, 72), "sprites/stair_c.png");
+
+  const player = getPlayer(new Vec2(205, 173));
 });

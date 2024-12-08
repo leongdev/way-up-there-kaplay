@@ -1,5 +1,6 @@
 export enum Objects {
   PLAYER = "player",
+  STAIR = "stair",
 }
 
 export enum Scenes {

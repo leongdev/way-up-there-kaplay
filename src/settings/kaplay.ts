@@ -3,7 +3,7 @@ import "kaplay/global";
 
 export const k = kaplay({
   background: [0, 0, 0],
-  scale: 1,
+  scale: 4,
   width: 480,
   height: 280,
   crisp: true,

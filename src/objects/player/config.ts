@@ -1,32 +1,32 @@
 export const playerConfig = {
-  sliceX: 33,
+  sliceX: 23,
   anims: {
-    idle: {
-      from: 0,
-      to: 10,
-      speed: 5,
-      loop: true,
-    },
-
     run: {
-      from: 11,
-      to: 16,
-      speed: 13,
+      from: 0,
+      to: 8,
+      speed: 20,
       loop: true,
     },
 
-    jump: {
-      from: 17,
-      to: 18,
-      speed: 5,
-      loop: false,
+    idle: {
+      from: 9,
+      to: 12,
+      speed: 8,
+      loop: true,
     },
 
-    fall: {
+    up: {
+      from: 13,
+      to: 18,
+      speed: 20,
+      loop: true,
+    },
+
+    up_idle: {
       from: 19,
-      to: 21,
-      speed: 5,
-      loop: false,
+      to: 22,
+      speed: 8,
+      loop: true,
     },
   },
 };

@@ -1,103 +1,119 @@
 import { k } from "../../settings/kaplay";
 import { Objects } from "../../utils/types";
 import { playerConfig } from "./config";
-import { GameObj } from "kaplay";
+import { GameObj, Vec2 } from "kaplay";
 
-const JUMP_FORCE = 600;
-const SCALE_JUMP = 0.6;
-const SCALE_FALL = 1.3;
-const SCALE_DEFAULT = 1;
 const SPEED = 150;
 
-let direction = 1;
-let canMove = false;
+let onStair = false;
 
-let fallLocker = false;
-let jumpLocker = false;
-let groundLocker = false;
-
-export function loadPlayer(posX: number, posY: number): GameObj {
-  k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
-  const player = k.add([
-    k.sprite(Objects.PLAYER),
-    pos(Vec2.fromArray([posX, posY])),
-    anchor("bot"),
-    area({
-      shape: new Rect(vec2(0, 0), 12, 21),
-    }),
-    body(),
-  ]);
-
-  onKeyPress("space", () => {
-    playerJump(player);
-  });
+export function getPlayer(position: Vec2): GameObj {
+  const player = loadPlayer(position);
 
   player.play("idle");
 
-  player.onUpdate(() => {
-    movementY(player);
-    movementX(player);
-    animations(player);
+  handleHorizontalMovement(player);
+  handleVerticalMovement(player);
+  handleAnimation(player);
+
+  player.onCollide(Objects.STAIR, () => {
+    onStair = true;
+    player.gravityScale = 0;
   });
 
+  player.onCollideEnd(Objects.STAIR, () => {
+    onStair = false;
+    player.gravityScale = 1;
+  });
   return player;
 }
 
-export const updateDirection = (value: number) => {
-  direction = value;
+const loadPlayer = (position: Vec2) => {
+  k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
+
+  return k.add([
+    k.sprite(Objects.PLAYER),
+    pos(position),
+    anchor("bot"),
+    area({
+      shape: new Rect(vec2(0, 0), 8, 16),
+    }),
+    body(),
+    z(1),
+    Objects.PLAYER,
+  ]);
 };
 
-const animations = (player: GameObj) => {
-  if (player.isJumping() && !jumpLocker) {
-    player.play("jump");
+const handleAnimation = (player: GameObj) => {
+  // Vertical Movement
+  ["up", "down"].forEach((key) => {
+    k.onKeyPress(key, () => {
+      if (onStair) player.play("up");
+    });
+  });
 
-    jumpLocker = true;
-    fallLocker = false;
-    groundLocker = false;
-  } else if (player.isFalling() && !fallLocker) {
-    player.play("fall");
+  player.onCollideEnd(Objects.STAIR, () => {
+    player.play("run");
+  });
 
-    fallLocker = true;
-    jumpLocker = false;
-    groundLocker = false;
-  } else if (player.isGrounded() && !groundLocker) {
-    if (canMove) {
+  // Horizontal Movement
+  ["left", "right"].forEach((key) => {
+    k.onKeyPress(key, () => {
       player.play("run");
-    } else {
-      player.play("idle");
+    });
+
+    k.onKeyRelease(key, () => {
+      // Only reset to "idle" if player is not holding any of these keys
+      if (
+        player.isGrounded() &&
+        !k.isKeyDown("left") &&
+        !k.isKeyDown("right") &&
+        !onStair
+      ) {
+        player.play("idle");
+      }
+    });
+  });
+};
+
+const handleVerticalMovement = (player: GameObj) => {
+  k.onKeyDown("up", () => {
+    if (onStair) {
+      moveUp(player);
     }
+  });
 
-    groundLocker = true;
-    fallLocker = false;
-    jumpLocker = false;
-  }
+  k.onKeyDown("down", () => {
+    if (onStair) {
+      moveDown(player);
+    }
+  });
 };
 
-const movementX = (player: GameObj) => {
-  if (!canMove) return;
+export const handleHorizontalMovement = (player: GameObj) => {
+  k.onKeyDown("left", () => {
+    moveLeft(player);
+  });
 
-  if (direction === 1) {
-    player.move(SPEED, 0);
-    player.flipX = false;
-  } else if (direction === -1) {
-    player.move(-SPEED, 0);
-    player.flipX = true;
-  }
+  k.onKeyDown("right", () => {
+    moveRight(player);
+  });
 };
 
-const movementY = (player: GameObj) => {
-  if (player.isJumping()) {
-    player.gravityScale = SCALE_JUMP;
-  } else if (player.isFalling()) {
-    player.gravityScale = SCALE_FALL;
-  } else {
-    player.gravityScale = SCALE_DEFAULT;
-  }
+const moveLeft = (player: GameObj) => {
+  player.move(-SPEED, 0);
+  player.flipX = true;
 };
 
-const playerJump = (player: GameObj) => {
-  if (player.isGrounded()) {
-    player.jump(JUMP_FORCE);
-    canMove = true;
-  }
+const moveRight = (player: GameObj) => {
+  player.move(SPEED, 0);
+  player.flipX = false;
+};
+
+const moveUp = (player: GameObj) => {
+  player.move(0, -SPEED);
+};
+
+const moveDown = (player: GameObj) => {
+  player.move(0, SPEED);
 };
