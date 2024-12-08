@@ -1,30 +1,31 @@
+import { GameObj, Vec2 } from "kaplay";
+import {
+  InputConfig,
+  InputMethod,
+  isKeyHorizontalDown,
+  isKeyVerticalDown,
+  onInputDown,
+  onInputHorizontal,
+  onInputLeft,
+  onInputRight,
+  onInputUp,
+  onInputVertical,
+} from "../../settings/inputs";
 import { k } from "../../settings/kaplay";
 import { Objects } from "../../utils/types";
 import { playerConfig } from "./config";
-import { GameObj, Vec2 } from "kaplay";
 
 const SPEED = 150;
-
-let onStair = false;
+let canMoveUp = false;
 
 export function getPlayer(position: Vec2): GameObj {
   const player = loadPlayer(position);
 
   player.play("idle");
-
-  handleHorizontalMovement(player);
-  handleVerticalMovement(player);
   handleAnimation(player);
+  handleVerticalMovement(player);
+  handleHorizontalMovement(player);
 
-  player.onCollide(Objects.STAIR, () => {
-    onStair = true;
-    player.gravityScale = 0;
-  });
-
-  player.onCollideEnd(Objects.STAIR, () => {
-    onStair = false;
-    player.gravityScale = 1;
-  });
   return player;
 }
 
@@ -46,74 +47,71 @@ const loadPlayer = (position: Vec2) => {
 
 const handleAnimation = (player: GameObj) => {
   // Vertical Movement
-  ["up", "down"].forEach((key) => {
-    k.onKeyPress(key, () => {
-      if (onStair) player.play("up");
-    });
-  });
-
-  player.onCollideEnd(Objects.STAIR, () => {
-    player.play("run");
-  });
+  onInputVertical(
+    () => {
+      if (canMoveUp) player.play("up");
+    },
+    () => {
+      if (!isKeyVerticalDown() && canMoveUp) player.play("up_idle");
+    },
+    InputMethod.PRESS
+  );
 
   // Horizontal Movement
-  ["left", "right"].forEach((key) => {
-    k.onKeyPress(key, () => {
-      player.play("run");
-    });
-
-    k.onKeyRelease(key, () => {
-      // Only reset to "idle" if player is not holding any of these keys
-      if (
-        player.isGrounded() &&
-        !k.isKeyDown("left") &&
-        !k.isKeyDown("right") &&
-        !onStair
-      ) {
+  onInputHorizontal(
+    () => {
+      if (player.isGrounded() && !canMoveUp) player.play("run");
+    },
+    () => {
+      if (!isKeyHorizontalDown() && !canMoveUp) {
         player.play("idle");
       }
-    });
+    },
+    InputMethod.PRESS
+  );
+
+  // Other
+  player.onCollideEnd(Objects.STAIR, () => {
+    if (isKeyHorizontalDown()) player.play("run");
+    else player.play("idle");
+  });
+
+  player.onCollide(Objects.STAIR, () => {
+    if (isKeyVerticalDown()) player.play("up");
+    else player.play("up_idle");
   });
 };
 
 const handleVerticalMovement = (player: GameObj) => {
-  k.onKeyDown("up", () => {
-    if (onStair) {
-      moveUp(player);
+  player.onCollide(Objects.STAIR, () => {
+    canMoveUp = true;
+    player.gravityScale = 0;
+  });
+
+  player.onCollideEnd(Objects.STAIR, () => {
+    canMoveUp = false;
+    player.gravityScale = 1;
+  });
+
+  onInputUp(() => {
+    if (canMoveUp) {
+      player.move(0, -SPEED);
     }
   });
 
-  k.onKeyDown("down", () => {
-    if (onStair) {
-      moveDown(player);
-    }
+  onInputDown(() => {
+    player.move(0, SPEED);
   });
 };
 
 export const handleHorizontalMovement = (player: GameObj) => {
-  k.onKeyDown("left", () => {
-    moveLeft(player);
+  onInputLeft(() => {
+    player.move(-SPEED, 0);
+    player.flipX = true;
   });
 
-  k.onKeyDown("right", () => {
-    moveRight(player);
+  onInputRight(() => {
+    player.move(SPEED, 0);
+    player.flipX = false;
   });
-};
-
-const moveLeft = (player: GameObj) => {
-  player.move(-SPEED, 0);
-  player.flipX = true;
-};
-
-const moveRight = (player: GameObj) => {
-  player.move(SPEED, 0);
-  player.flipX = false;
-};
-
-const moveUp = (player: GameObj) => {
-  player.move(0, -SPEED);
-};
-
-const moveDown = (player: GameObj) => {
-  player.move(0, SPEED);
 };

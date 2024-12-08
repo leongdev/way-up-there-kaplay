@@ -4,7 +4,7 @@ export const levelConfig: CollisionObject = {
   opacity: 0,
   color: [255, 255, 255],
   colliders: [
-    { x: 224, y: 256, width: 240, height: 16 },
+    { x: 224, y: 256, width: 256, height: 16 },
     { x: 192, y: 192, width: 16, height: 16 },
     { x: 352, y: 144, width: 48, height: 16 },
     { x: 240, y: 80, width: 96, height: 16 },
