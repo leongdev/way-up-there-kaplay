@@ -1,3 +1,5 @@
+import { k } from "../settings/kaplay";
+
 // Setup post effect
 const effects = {
   crt: () => ({
@@ -12,14 +14,16 @@ for (const effect in effects) {
 
 let canShowPostEffect = false;
 
-export const useCustomPostEffect = () => {
-  onKeyPress("t", () => {
+export const useCustomPostEffect = (key: string) => {
+  k.onKeyPress(key, () => {
     canShowPostEffect = !canShowPostEffect;
   });
 
-  if (!canShowPostEffect) return;
+  k.onUpdate(() => {
+    if (!canShowPostEffect) return;
 
-  const effect = Object.keys(effects)[0];
+    const effect = Object.keys(effects)[0];
 
-  usePostEffect(effect, effects[effect]());
+    usePostEffect(effect, effects[effect]());
+  });
 };
