@@ -9,7 +9,7 @@ import { getStair } from "../objects/stair/stair";
 import { k } from "../settings/kaplay";
 import { Scenes } from "../utils/types";
 
-const GRAVITY_DEFAULT = 2000;
+const GRAVITY_DEFAULT = 1500;
 
 k.scene(Scenes.INITIAL, () => {
   //Hooks
