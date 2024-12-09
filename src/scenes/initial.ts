@@ -32,17 +32,21 @@ k.scene(Scenes.INITIAL, () => {
 
   const player = getPlayer(new Vec2(205, 173));
 
-  getGrass(new Vec2(240, 249), GrassType.A, player, Objects.GRASS_A);
-  getGrass(new Vec2(258, 249), GrassType.B, player, Objects.GRASS_B);
-  getGrass(new Vec2(354, 249), GrassType.A, player, Objects.GRASS_C);
-  getGrass(new Vec2(363, 249), GrassType.B, player, Objects.GRASS_D);
-  getGrass(new Vec2(374, 249), GrassType.A, player, Objects.GRASS_E);
-  getGrass(new Vec2(409, 249), GrassType.A, player, Objects.GRASS_F);
-  getGrass(new Vec2(415, 249), GrassType.B, player, Objects.GRASS_G);
-  getGrass(new Vec2(423, 249), GrassType.B, player, Objects.GRASS_H);
+  getGrass(new Vec2(240, 248), GrassType.A, player, Objects.GRASS_A);
+  getGrass(new Vec2(258, 248), GrassType.B, player, Objects.GRASS_B);
+  getGrass(new Vec2(354, 248), GrassType.A, player, Objects.GRASS_C);
+  getGrass(new Vec2(363, 248), GrassType.B, player, Objects.GRASS_D);
+  getGrass(new Vec2(374, 248), GrassType.A, player, Objects.GRASS_E);
+  getGrass(new Vec2(409, 248), GrassType.A, player, Objects.GRASS_F);
+  getGrass(new Vec2(415, 248), GrassType.B, player, Objects.GRASS_G);
+  getGrass(new Vec2(423, 248), GrassType.B, player, Objects.GRASS_H);
   getGrass(new Vec2(192, 184), GrassType.A, player, Objects.GRASS_I);
   getGrass(new Vec2(200, 184), GrassType.B, player, Objects.GRASS_J);
   getGrass(new Vec2(210, 184), GrassType.B, player, Objects.GRASS_K);
   getGrass(new Vec2(307, 64), GrassType.C, player, Objects.GRASS_L);
   getGrass(new Vec2(302, 240), GrassType.C, player, Objects.GRASS_M);
+  getGrass(new Vec2(325, 72), GrassType.A, player, Objects.GRASS_N);
+  getGrass(new Vec2(333, 72), GrassType.B, player, Objects.GRASS_O);
+  getGrass(new Vec2(343, 72), GrassType.A, player, Objects.GRASS_P);
+  getGrass(new Vec2(406, 136), GrassType.B, player, Objects.GRASS_Q);
 });

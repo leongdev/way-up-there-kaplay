@@ -15,6 +15,9 @@ export enum Objects {
   GRASS_L = "grass_l",
   GRASS_M = "grass_m",
   GRASS_N = "grass_n",
+  GRASS_O = "grass_o",
+  GRASS_P = "grass_p",
+  GRASS_Q = "grass_q",
 }
 
 export enum Scenes {
