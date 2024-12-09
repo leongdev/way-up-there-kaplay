@@ -53,3 +53,22 @@ export const grassConfigB = {
     },
   },
 };
+
+export const grassConfigC = {
+  sliceX: 5,
+  anims: {
+    idle: {
+      from: 0,
+      to: 0,
+      speed: 20,
+      loop: false,
+    },
+
+    move: {
+      from: 0,
+      to: 4,
+      speed: 20,
+      loop: false,
+    },
+  },
+};

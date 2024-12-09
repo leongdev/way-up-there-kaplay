@@ -1,17 +1,23 @@
 import { GameObj, Vec2 } from "kaplay";
 import { k } from "../../settings/kaplay";
-import { Objects } from "../../utils/types";
-import { GrassConfig, grassConfigA, grassConfigB } from "./config";
+import {
+  GrassConfig,
+  grassConfigA,
+  grassConfigB,
+  grassConfigC,
+} from "./config";
 
 export enum GrassType {
   A,
   B,
+  C,
 }
 
 export const getGrass = (
   position: Vec2,
   type: GrassType,
-  player: GameObj
+  player: GameObj,
+  tag: string
 ): GameObj => {
   switch (type) {
     case GrassType.A:
@@ -20,7 +26,7 @@ export const getGrass = (
         "sprites/grass_a.png",
         grassConfigA,
         player,
-        Objects.GRASS_A
+        tag
       );
     case GrassType.B:
       return loadGrass(
@@ -28,7 +34,16 @@ export const getGrass = (
         "sprites/grass_b.png",
         grassConfigB,
         player,
-        Objects.GRASS_B
+        tag
+      );
+
+    case GrassType.C:
+      return loadGrass(
+        position,
+        "sprites/grass_c.png",
+        grassConfigC,
+        player,
+        tag
       );
   }
 };
