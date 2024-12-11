@@ -1,6 +1,7 @@
 export enum Objects {
   PLAYER = "player",
   STAIR = "stair",
+  SHIP = "ship",
   GRASS_A = "grass_a",
   GRASS_B = "grass_b",
   GRASS_C = "grass_c",

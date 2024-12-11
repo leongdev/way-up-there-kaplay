@@ -1,6 +1,5 @@
 import { GameObj, Vec2 } from "kaplay";
 import {
-  InputConfig,
   InputMethod,
   isKeyHorizontalDown,
   isKeyVerticalDown,
