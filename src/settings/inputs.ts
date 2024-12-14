@@ -73,6 +73,23 @@ export const onInputDown = (
   });
 };
 
+export const onInput = (
+  onPress: () => void,
+  onRelease: () => void = () => {},
+  type: InputMethod = InputMethod.DOWN,
+  keys: Array<string>
+) => {
+  keys.forEach((key) => {
+    if (type === InputMethod.PRESS) {
+      k.onKeyPress(key, onPress);
+    } else {
+      k.onKeyDown(key, onPress);
+    }
+
+    k.onKeyRelease(key, onRelease);
+  });
+};
+
 export const onInputLeft = (
   onPress: () => void,
   onRelease: () => void = () => {},

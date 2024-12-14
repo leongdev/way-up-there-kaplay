@@ -2,6 +2,8 @@ export enum Objects {
   PLAYER = "player",
   STAIR = "stair",
   SHIP = "ship",
+  CONTROLLER = "controller",
+  FUEL_MACHINE = "fuel_machine",
   GRASS_A = "grass_a",
   GRASS_B = "grass_b",
   GRASS_C = "grass_c",
@@ -19,6 +21,12 @@ export enum Objects {
   GRASS_O = "grass_o",
   GRASS_P = "grass_p",
   GRASS_Q = "grass_q",
+}
+
+export enum Events {
+  ON_MOVE_SHIP_LEFT = "onMoveShipLeft",
+  ON_MOVE_SHIP_RIGHT = "onMoveShipRight",
+  ON_DISABLE_CONTROL_SHIP = "onDisableControlShip",
 }
 
 export enum Scenes {

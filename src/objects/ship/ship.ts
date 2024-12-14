@@ -1,11 +1,11 @@
 import { Vec2 } from "kaplay";
 import { k } from "../../settings/kaplay";
-import { Objects } from "../../utils/types";
+import { Events, Objects } from "../../utils/types";
 import { shipConfig } from "./config";
 
-const SPEED = 50;
+const SPEED = 150;
 
-export const getShip = (position: Vec2, direction: number) => {
+export const getShip = (position: Vec2) => {
   k.loadSprite(Objects.SHIP, "sprites/spaceship.png", shipConfig);
 
   const ship = k.add([
@@ -21,11 +21,13 @@ export const getShip = (position: Vec2, direction: number) => {
 
   ship.gravityScale = 0;
 
-  if (direction === 1) {
-    ship.move(SPEED, 0);
-  } else if (direction === -1) {
+  k.on(Events.ON_MOVE_SHIP_LEFT, Objects.PLAYER, () => {
     ship.move(-SPEED, 0);
-  }
+  });
+
+  k.on(Events.ON_MOVE_SHIP_RIGHT, Objects.PLAYER, () => {
+    ship.move(SPEED, 0);
+  });
 
   return ship;
 };

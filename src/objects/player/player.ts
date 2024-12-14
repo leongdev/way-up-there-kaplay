@@ -1,8 +1,10 @@
 import { GameObj, Vec2 } from "kaplay";
 import {
+  InputConfig,
   InputMethod,
   isKeyHorizontalDown,
   isKeyVerticalDown,
+  onInput,
   onInputDown,
   onInputHorizontal,
   onInputLeft,
@@ -11,22 +13,56 @@ import {
   onInputVertical,
 } from "../../settings/inputs";
 import { k } from "../../settings/kaplay";
-import { Objects } from "../../utils/types";
+import { Events, Objects } from "../../utils/types";
 import { playerConfig } from "./config";
 
 const SPEED = 150;
+
 let canMoveUp = false;
+let canControlShip: boolean = false;
+let isControlShipEnabled: boolean = false;
+let moveLocker: boolean = false;
 
 export function getPlayer(position: Vec2): GameObj {
   const player = loadPlayer(position);
-
   player.play("idle");
+
   handleAnimation(player);
   handleVerticalMovement(player);
   handleHorizontalMovement(player);
+  handleController(player);
 
   return player;
 }
+
+/**
+ * This function handles the controller object
+ * @param player Player Game Object
+ */
+const handleController = (player: GameObj) => {
+  player.onCollide(Objects.CONTROLLER, () => {
+    canControlShip = true;
+  });
+
+  player.onCollideEnd(Objects.CONTROLLER, () => {
+    canControlShip = false;
+  });
+
+  onInput(
+    () => {
+      if (canControlShip) {
+        isControlShipEnabled = true;
+      }
+    },
+    () => {
+      if (canControlShip) {
+        isControlShipEnabled = false;
+      }
+    },
+    InputMethod.DOWN,
+    InputConfig.fire
+  );
+};
 
 const loadPlayer = (position: Vec2) => {
   k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
@@ -59,7 +95,8 @@ const handleAnimation = (player: GameObj) => {
   // Horizontal Movement
   onInputHorizontal(
     () => {
-      if (player.isGrounded() && !canMoveUp) player.play("run");
+      if (player.isGrounded() && !canMoveUp && !isControlShipEnabled)
+        player.play("run");
     },
     () => {
       if (!isKeyHorizontalDown() && !canMoveUp) {
@@ -69,7 +106,6 @@ const handleAnimation = (player: GameObj) => {
     InputMethod.PRESS
   );
 
-  // Other
   player.onCollideEnd(Objects.STAIR, () => {
     if (isKeyHorizontalDown()) player.play("run");
     else player.play("idle");
@@ -78,6 +114,10 @@ const handleAnimation = (player: GameObj) => {
   player.onCollide(Objects.STAIR, () => {
     if (isKeyVerticalDown()) player.play("up");
     else player.play("up_idle");
+  });
+
+  player.onCollide(Objects.CONTROLLER, () => {
+    if (isControlShipEnabled) player.play("idle");
   });
 };
 
@@ -104,13 +144,41 @@ const handleVerticalMovement = (player: GameObj) => {
 };
 
 export const handleHorizontalMovement = (player: GameObj) => {
-  onInputLeft(() => {
-    player.move(-SPEED, 0);
-    player.flipX = true;
-  });
+  onInputLeft(
+    () => {
+      if (isControlShipEnabled) {
+        player.trigger(Events.ON_MOVE_SHIP_LEFT);
+        if (!moveLocker) {
+          player.play("idle");
+          moveLocker = true;
+        }
+      } else {
+        player.move(-SPEED, 0);
+        player.flipX = true;
+      }
+    },
+    () => {
+      if (isControlShipEnabled) player.trigger(Events.ON_DISABLE_CONTROL_SHIP);
+      moveLocker = false;
+    }
+  );
 
-  onInputRight(() => {
-    player.move(SPEED, 0);
-    player.flipX = false;
-  });
+  onInputRight(
+    () => {
+      if (isControlShipEnabled) {
+        player.trigger(Events.ON_MOVE_SHIP_RIGHT);
+        if (!moveLocker) {
+          player.play("idle");
+          moveLocker = true;
+        }
+      } else {
+        player.move(SPEED, 0);
+        player.flipX = false;
+      }
+    },
+    () => {
+      if (isControlShipEnabled) player.trigger(Events.ON_DISABLE_CONTROL_SHIP);
+      moveLocker = false;
+    }
+  );
 };
