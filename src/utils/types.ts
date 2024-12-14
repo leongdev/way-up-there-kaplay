@@ -4,6 +4,8 @@ export enum Objects {
   SHIP = "ship",
   CONTROLLER = "controller",
   FUEL_MACHINE = "fuel_machine",
+  MIX_MACHINE = "mix_machine",
+  PRINT_MACHINE = "print_machine",
   GRASS_A = "grass_a",
   GRASS_B = "grass_b",
   GRASS_C = "grass_c",

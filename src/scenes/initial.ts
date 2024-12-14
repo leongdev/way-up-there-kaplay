@@ -7,6 +7,8 @@ import { levelConfig } from "../levels/level_1/config";
 import { getController } from "../objects/controller/controller";
 import { getGrass, GrassType } from "../objects/grass/grass";
 import { getFuelMachine } from "../objects/machines/fuel/fuel";
+import { getMixMachine } from "../objects/machines/mix/mix";
+import { getPrinter } from "../objects/machines/print/print";
 import { getPlayer } from "../objects/player/player";
 import { getShip } from "../objects/ship/ship";
 import { getStair } from "../objects/stair/stair";
@@ -61,6 +63,8 @@ k.scene(Scenes.INITIAL, () => {
   getGrass(new Vec2(406, 136), GrassType.B, player, Objects.GRASS_Q);
 
   getFuelMachine(new Vec2(192, 127));
+  getMixMachine(new Vec2(250, 47));
+  getPrinter(new Vec2(370, 110));
 });
 
 const onChangeDirection = (direction: number) => {
