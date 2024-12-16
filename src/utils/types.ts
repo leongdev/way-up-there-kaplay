@@ -6,7 +6,6 @@ export enum Objects {
   CONTROLLER = "controller",
   MIX_MACHINE = "mix_machine",
   PRINT_MACHINE = "print_machine",
-  FUEL_INDICATOR = "fuel_indicator",
   FUEL_MACHINE = "fuel_machine",
   FUEL_CELL_INDICATOR = "fuel_cell_indicator",
   FUEL_CELL_A = "fuel_cell_a",

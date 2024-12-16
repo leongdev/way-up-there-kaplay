@@ -6,6 +6,7 @@ import { FUEL_DECREASE_DELAY } from "../../utils/constants";
 
 let FUEL_NUMBER: number = 5;
 let CAN_CONSUME_FUEL: boolean = false;
+let IS_FUEL_EMPTY: boolean = false;
 
 export const getFuel = (position: Vec2) => {
   k.loadSprite(Objects.FUEL_LINE, "sprites/fuel_line.png", fuelLineConfig);
@@ -42,6 +43,7 @@ export const getFuel = (position: Vec2) => {
     if (anim === "fuel") {
       FUEL_NUMBER++;
       fuelLine.play("idle");
+      IS_FUEL_EMPTY = false;
     }
   });
 
@@ -104,27 +106,25 @@ export const getFuel = (position: Vec2) => {
   });
 
   fuel_timer.loop(FUEL_DECREASE_DELAY, () => {
-    if (!CAN_CONSUME_FUEL) return;
+    if (!CAN_CONSUME_FUEL || IS_FUEL_EMPTY) return;
 
     if (FUEL_NUMBER > 0) {
       FUEL_NUMBER--;
     }
-
-    if (FUEL_NUMBER < 0) {
-      FUEL_NUMBER = 0;
-    }
   });
 
-  k.onUpdate(() => {
+  fuelIndicator.onUpdate(() => {
     cell_A.hidden = FUEL_NUMBER < 1;
     cell_B.hidden = FUEL_NUMBER < 2;
     cell_C.hidden = FUEL_NUMBER < 3;
     cell_D.hidden = FUEL_NUMBER < 4;
     cell_E.hidden = FUEL_NUMBER < 5;
 
-    if (FUEL_NUMBER <= 0) {
+    if (FUEL_NUMBER === 0 && !IS_FUEL_EMPTY) {
       FUEL_NUMBER = 0;
+      IS_FUEL_EMPTY = true;
       fuelIndicator.trigger(Events.ON_RUN_OUT_OF_ENERGY);
+      console.log("Fuel empty");
     }
   });
 };

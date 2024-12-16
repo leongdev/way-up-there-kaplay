@@ -11,6 +11,7 @@ const SPEED = 150;
 let FIRE_TYPE = ShipFiringTypes.A;
 let IS_FIRING: boolean = false;
 let FIRE_DIRECTION: boolean = false;
+let CAN_FIRE: boolean = true;
 
 export const getShip = (position: Vec2) => {
   k.loadSprite(Objects.SHIP, "sprites/spaceship.png", shipConfig);
@@ -31,7 +32,7 @@ export const getShip = (position: Vec2) => {
   const firing_timer = add([timer()]);
 
   firing_timer.loop(FIRING_DELAY, () => {
-    if (IS_FIRING) {
+    if (IS_FIRING && CAN_FIRE) {
       FIRE_DIRECTION = !FIRE_DIRECTION;
 
       if (FIRE_DIRECTION) {
@@ -50,14 +51,16 @@ export const getShip = (position: Vec2) => {
     }
   });
 
-  k.on(Events.ON_RUN_OUT_OF_ENERGY, Objects.FUEL_INDICATOR, () => {
-    IS_FIRING = false;
+  k.on(Events.ON_RUN_OUT_OF_ENERGY, Objects.FUEL_CELL_INDICATOR, () => {
+    CAN_FIRE = false;
     ship.play("idle");
   });
 
   k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.PLAYER, () => {
-    IS_FIRING = true;
-    ship.play(FIRE_TYPE);
+    if (CAN_FIRE) {
+      IS_FIRING = true;
+      ship.play(FIRE_TYPE);
+    }
   });
 
   k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.PLAYER, () => {

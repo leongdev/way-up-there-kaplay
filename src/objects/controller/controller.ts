@@ -3,6 +3,8 @@ import { k } from "../../settings/kaplay";
 import { Events, Objects } from "../../utils/types";
 import { controllerConfig } from "./config";
 
+let IS_COLLIDING_PLAYER: boolean = false;
+
 export const getController = (position: Vec2) => {
   k.loadSprite(Objects.CONTROLLER, "sprites/controller.png", controllerConfig);
 
@@ -15,6 +17,14 @@ export const getController = (position: Vec2) => {
   ]);
 
   controller.play("idle");
+
+  controller.onCollide(Objects.PLAYER, () => {
+    IS_COLLIDING_PLAYER = true;
+  });
+
+  controller.onCollideEnd(Objects.PLAYER, () => {
+    IS_COLLIDING_PLAYER = false;
+  });
 
   controller.onCollide(Objects.PLAYER, () => {
     controller.play("outline");
@@ -33,7 +43,7 @@ export const getController = (position: Vec2) => {
   });
 
   k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.PLAYER, () => {
-    controller.play("outline");
+    if (IS_COLLIDING_PLAYER) controller.play("outline");
   });
 
   return controller;
