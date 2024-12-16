@@ -3,9 +3,17 @@ export enum Objects {
   STAIR = "stair",
   SHIP = "ship",
   CONTROLLER = "controller",
-  FUEL_MACHINE = "fuel_machine",
   MIX_MACHINE = "mix_machine",
   PRINT_MACHINE = "print_machine",
+  FUEL_INDICATOR = "fuel_indicator",
+  FUEL_MACHINE = "fuel_machine",
+  FUEL_CELL_INDICATOR = "fuel_cell_indicator",
+  FUEL_CELL_A = "fuel_cell_a",
+  FUEL_CELL_B = "fuel_cell_b",
+  FUEL_CELL_C = "fuel_cell_c",
+  FUEL_CELL_D = "fuel_cell_d",
+  FUEL_CELL_E = "fuel_cell_e",
+  FUEL_LINE = "fuel_line",
   GRASS_A = "grass_a",
   GRASS_B = "grass_b",
   GRASS_C = "grass_c",
@@ -29,6 +37,7 @@ export enum Events {
   ON_MOVE_SHIP_LEFT = "onMoveShipLeft",
   ON_MOVE_SHIP_RIGHT = "onMoveShipRight",
   ON_DISABLE_CONTROL_SHIP = "onDisableControlShip",
+  ADD_FUEL = "addFuel",
 }
 
 export enum Scenes {

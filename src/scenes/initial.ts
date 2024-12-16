@@ -5,6 +5,7 @@ import { useDebugger } from "../hooks/useDebugger";
 import { useFullScreen } from "../hooks/useFullScreen";
 import { levelConfig } from "../levels/level_1/config";
 import { getController } from "../objects/controller/controller";
+import { getFuel } from "../objects/fuel/fuel";
 import { getGrass, GrassType } from "../objects/grass/grass";
 import { getFuelMachine } from "../objects/machines/fuel/fuel";
 import { getMixMachine } from "../objects/machines/mix/mix";
@@ -65,6 +66,7 @@ k.scene(Scenes.INITIAL, () => {
   getFuelMachine(new Vec2(192, 127));
   getMixMachine(new Vec2(250, 47));
   getPrinter(new Vec2(370, 110));
+  getFuel(new Vec2(177, 210));
 });
 
 const onChangeDirection = (direction: number) => {

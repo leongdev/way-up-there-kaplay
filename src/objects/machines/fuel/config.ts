@@ -16,7 +16,7 @@ export const fuelConfig = {
     building: {
       from: 2,
       to: 33,
-      speed: 10,
+      speed: 15,
       loop: false,
     },
   },

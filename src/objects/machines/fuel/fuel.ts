@@ -1,6 +1,6 @@
 import { Vec2 } from "kaplay";
 import { k } from "../../../settings/kaplay";
-import { Objects } from "../../../utils/types";
+import { Events, Objects } from "../../../utils/types";
 import { fuelConfig } from "./config";
 
 let isBuildingFuel = false;
@@ -27,6 +27,14 @@ export const getFuelMachine = (position: Vec2) => {
 
   fuelMachine.onCollideEnd(Objects.PLAYER, () => {
     if (!isBuildingFuel) fuelMachine.play("idle");
+  });
+
+  k.on(Events.ADD_FUEL, Objects.FUEL_LINE, () => {
+    fuelMachine.play("building");
+  });
+
+  fuelMachine.onAnimEnd((anim: string) => {
+    if (anim === "building") fuelMachine.play("idle");
   });
 
   return fuelMachine;
