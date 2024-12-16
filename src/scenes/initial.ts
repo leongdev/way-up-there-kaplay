@@ -41,7 +41,7 @@ k.scene(Scenes.INITIAL, () => {
   getStair(new Vec2(225, 184), "sprites/stair_b.png");
   getStair(new Vec2(353, 72), "sprites/stair_c.png");
 
-  getShip(new Vec2(72, 218));
+  getShip(new Vec2(72, 240));
 
   getController(new Vec2(326, 232));
 

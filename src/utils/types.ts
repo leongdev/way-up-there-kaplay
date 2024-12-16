@@ -2,6 +2,7 @@ export enum Objects {
   PLAYER = "player",
   STAIR = "stair",
   SHIP = "ship",
+  PROJECTILE_A = "projectile_a",
   CONTROLLER = "controller",
   MIX_MACHINE = "mix_machine",
   PRINT_MACHINE = "print_machine",
@@ -31,12 +32,16 @@ export enum Objects {
   GRASS_O = "grass_o",
   GRASS_P = "grass_p",
   GRASS_Q = "grass_q",
+  COLLIDER = "collider",
 }
 
 export enum Events {
   ON_MOVE_SHIP_LEFT = "onMoveShipLeft",
   ON_MOVE_SHIP_RIGHT = "onMoveShipRight",
   ON_DISABLE_CONTROL_SHIP = "onDisableControlShip",
+  ON_ENABLE_CONTROL_SHIP = "onEnableControlShip",
+  ON_FIRE_SHIP = "onFireShip",
+  ON_RUN_OUT_OF_ENERGY = "onRunOutOfEnergy",
   ADD_FUEL = "addFuel",
 }
 

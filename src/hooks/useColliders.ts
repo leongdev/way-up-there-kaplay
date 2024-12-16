@@ -1,4 +1,4 @@
-import { CollisionObject } from "../utils/types";
+import { CollisionObject, Objects } from "../utils/types";
 
 export const useColliders = (collisionObject: CollisionObject) => {
   //Floor
@@ -10,6 +10,7 @@ export const useColliders = (collisionObject: CollisionObject) => {
       body({ isStatic: true }),
       color(color[0], color[1], color[2]),
       opacity(collisionObject.opacity),
+      Objects.COLLIDER,
     ]);
   });
 };

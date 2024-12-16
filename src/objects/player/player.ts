@@ -52,6 +52,7 @@ const handleController = (player: GameObj) => {
     () => {
       if (canControlShip) {
         isControlShipEnabled = true;
+        player.trigger(Events.ON_ENABLE_CONTROL_SHIP);
       }
     },
     () => {
@@ -59,7 +60,16 @@ const handleController = (player: GameObj) => {
         isControlShipEnabled = false;
       }
     },
-    InputMethod.DOWN,
+    InputMethod.PRESS,
+    InputConfig.fire
+  );
+
+  onInput(
+    () => {},
+    () => {
+      player.trigger(Events.ON_DISABLE_CONTROL_SHIP);
+    },
+    InputMethod.PRESS,
     InputConfig.fire
   );
 };
@@ -158,7 +168,6 @@ export const handleHorizontalMovement = (player: GameObj) => {
       }
     },
     () => {
-      if (isControlShipEnabled) player.trigger(Events.ON_DISABLE_CONTROL_SHIP);
       moveLocker = false;
     }
   );
@@ -177,7 +186,6 @@ export const handleHorizontalMovement = (player: GameObj) => {
       }
     },
     () => {
-      if (isControlShipEnabled) player.trigger(Events.ON_DISABLE_CONTROL_SHIP);
       moveLocker = false;
     }
   );

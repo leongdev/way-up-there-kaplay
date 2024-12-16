@@ -18,5 +18,6 @@ export const levelConfig: CollisionObject = {
     { x: 240, y: 96, width: 16, height: 48 },
     { x: 400, y: 144, width: 16, height: 64 },
     { x: 272, y: 144, width: 16, height: 64 },
+    { x: 16, y: 16, width: 144, height: 16 },
   ],
 };
