@@ -21,7 +21,9 @@ const SPEED = 150;
 let canMoveUp = false;
 let canControlShip: boolean = false;
 let isControlShipEnabled: boolean = false;
-let moveLocker: boolean = false;
+let canEnableMovement: boolean = false;
+let canPrintItem: boolean = false;
+let canMove: boolean = true;
 
 export function getPlayer(position: Vec2): GameObj {
   const player = loadPlayer(position);
@@ -31,9 +33,62 @@ export function getPlayer(position: Vec2): GameObj {
   handleVerticalMovement(player);
   handleHorizontalMovement(player);
   handleController(player);
+  handlePrintMachine(player);
 
   return player;
 }
+
+const handlePrintMachine = (player: GameObj) => {
+  onInput(
+    () => {
+      if (canPrintItem) {
+        player.trigger(Events.ON_SHOW_PRINT_SELECTION);
+        canMove = false;
+        player.play("idle");
+      }
+    },
+    () => {
+      if (canPrintItem) {
+        player.trigger(Events.ON_HIDE_PRINT_SELECTION);
+        canMove = true;
+      }
+    },
+    InputMethod.PRESS,
+    InputConfig.fire
+  );
+
+  onInput(
+    () => {
+      if (canPrintItem) player.trigger(Events.ON_SELECT_LEFT);
+    },
+    () => {
+      if (canPrintItem) player.trigger(Events.ON_PRINT_ITEM_SELECTED);
+    },
+    InputMethod.PRESS,
+    InputConfig.left
+  );
+
+  onInput(
+    () => {
+      if (canPrintItem) player.trigger(Events.ON_SELECT_RIGHT);
+    },
+    () => {
+      if (canPrintItem) player.trigger(Events.ON_PRINT_ITEM_SELECTED);
+    },
+    InputMethod.PRESS,
+    InputConfig.right
+  );
+
+  player.onCollide(Objects.PRINT_MACHINE, () => {
+    canPrintItem = true;
+    player.trigger(Events.ON_ENABLE_PRINT_MACHINE);
+  });
+
+  player.onCollideEnd(Objects.PRINT_MACHINE, () => {
+    canPrintItem = false;
+    player.trigger(Events.ON_DISABLE_PRINT_MACHINE);
+  });
+};
 
 /**
  * This function handles the controller object
@@ -105,7 +160,11 @@ const handleAnimation = (player: GameObj) => {
   // Horizontal Movement
   onInputHorizontal(
     () => {
-      if (player.isGrounded() && !canMoveUp && !isControlShipEnabled)
+      if (!canMove) {
+        player.play("idle");
+        return;
+      }
+      if (player.isGrounded() && !canMoveUp && !isControlShipEnabled && canMove)
         player.play("run");
     },
     () => {
@@ -156,11 +215,12 @@ const handleVerticalMovement = (player: GameObj) => {
 export const handleHorizontalMovement = (player: GameObj) => {
   onInputLeft(
     () => {
+      if (!canMove) return;
       if (isControlShipEnabled) {
         player.trigger(Events.ON_MOVE_SHIP_LEFT);
-        if (!moveLocker) {
+        if (!canEnableMovement) {
           player.play("idle");
-          moveLocker = true;
+          canEnableMovement = true;
         }
       } else {
         player.move(-SPEED, 0);
@@ -168,17 +228,18 @@ export const handleHorizontalMovement = (player: GameObj) => {
       }
     },
     () => {
-      moveLocker = false;
+      canEnableMovement = false;
     }
   );
 
   onInputRight(
     () => {
+      if (!canMove) return;
       if (isControlShipEnabled) {
         player.trigger(Events.ON_MOVE_SHIP_RIGHT);
-        if (!moveLocker) {
+        if (!canEnableMovement) {
           player.play("idle");
-          moveLocker = true;
+          canEnableMovement = true;
         }
       } else {
         player.move(SPEED, 0);
@@ -186,7 +247,7 @@ export const handleHorizontalMovement = (player: GameObj) => {
       }
     },
     () => {
-      moveLocker = false;
+      canEnableMovement = false;
     }
   );
 };

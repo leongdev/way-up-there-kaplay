@@ -6,6 +6,7 @@ export enum Objects {
   CONTROLLER = "controller",
   MIX_MACHINE = "mix_machine",
   PRINT_MACHINE = "print_machine",
+  PRINT_UI_SELECTION = "print_ui_selection",
   FUEL_MACHINE = "fuel_machine",
   FUEL_CELL_INDICATOR = "fuel_cell_indicator",
   FUEL_CELL_A = "fuel_cell_a",
@@ -42,6 +43,13 @@ export enum Events {
   ON_FIRE_SHIP = "onFireShip",
   ON_RUN_OUT_OF_ENERGY = "onRunOutOfEnergy",
   ADD_FUEL = "addFuel",
+  ON_ENABLE_PRINT_MACHINE = "onEnablePrintMachine",
+  ON_DISABLE_PRINT_MACHINE = "onDisablePrintMachine",
+  ON_SHOW_PRINT_SELECTION = "onShowPrintSelection",
+  ON_HIDE_PRINT_SELECTION = "onHidePrintSelection",
+  ON_SELECT_LEFT = "onSelectLeft",
+  ON_SELECT_RIGHT = "onSelectRight",
+  ON_PRINT_ITEM_SELECTED = "onPrintItemSelected",
 }
 
 export enum Scenes {
