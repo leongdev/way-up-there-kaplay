@@ -10,7 +10,7 @@
 $ npm run dev
 ```
 
-will start a dev server at http://localhost:8000
+will start a dev server at http://localhost:5173
 
 ## Distribution
 
