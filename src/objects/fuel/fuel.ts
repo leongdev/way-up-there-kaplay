@@ -89,12 +89,12 @@ export const getFuel = (position: Vec2) => {
 
   const fuel_timer = add([timer()]);
 
-  k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.PLAYER, () => {
+  k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
     CAN_CONSUME_FUEL = true;
     fuelIndicator.play("fuel");
   });
 
-  k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.PLAYER, () => {
+  k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
     fuelIndicator.play("idle");
     CAN_CONSUME_FUEL = false;
   });

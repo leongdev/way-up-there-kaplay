@@ -56,14 +56,14 @@ export const getShip = (position: Vec2) => {
     ship.play("idle");
   });
 
-  k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.PLAYER, () => {
+  k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
     if (CAN_FIRE) {
       IS_FIRING = true;
       ship.play(FIRE_TYPE);
     }
   });
 
-  k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.PLAYER, () => {
+  k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
     IS_FIRING = false;
     ship.play("idle");
   });

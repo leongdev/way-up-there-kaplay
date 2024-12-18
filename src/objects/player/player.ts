@@ -32,7 +32,7 @@ export function getPlayer(position: Vec2): GameObj {
   handleAnimation(player);
   handleVerticalMovement(player);
   handleHorizontalMovement(player);
-  handleController(player);
+  handleController();
   handlePrintMachine(player);
 
   return player;
@@ -94,39 +94,14 @@ const handlePrintMachine = (player: GameObj) => {
  * This function handles the controller object
  * @param player Player Game Object
  */
-const handleController = (player: GameObj) => {
-  player.onCollide(Objects.CONTROLLER, () => {
-    canControlShip = true;
+const handleController = () => {
+  k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
+    isControlShipEnabled = true;
   });
 
-  player.onCollideEnd(Objects.CONTROLLER, () => {
-    canControlShip = false;
+  k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
+    isControlShipEnabled = false;
   });
-
-  onInput(
-    () => {
-      if (canControlShip) {
-        isControlShipEnabled = true;
-        player.trigger(Events.ON_ENABLE_CONTROL_SHIP);
-      }
-    },
-    () => {
-      if (canControlShip) {
-        isControlShipEnabled = false;
-      }
-    },
-    InputMethod.PRESS,
-    InputConfig.fire
-  );
-
-  onInput(
-    () => {},
-    () => {
-      player.trigger(Events.ON_DISABLE_CONTROL_SHIP);
-    },
-    InputMethod.PRESS,
-    InputConfig.fire
-  );
 };
 
 const loadPlayer = (position: Vec2) => {

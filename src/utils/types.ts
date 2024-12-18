@@ -36,13 +36,17 @@ export enum Objects {
 }
 
 export enum Events {
+  // Ship Events
   ON_MOVE_SHIP_LEFT = "onMoveShipLeft",
   ON_MOVE_SHIP_RIGHT = "onMoveShipRight",
   ON_DISABLE_CONTROL_SHIP = "onDisableControlShip",
   ON_ENABLE_CONTROL_SHIP = "onEnableControlShip",
   ON_FIRE_SHIP = "onFireShip",
+
+  // Fuel Events
   ON_RUN_OUT_OF_ENERGY = "onRunOutOfEnergy",
   ADD_FUEL = "addFuel",
+
   ON_ENABLE_PRINT_MACHINE = "onEnablePrintMachine",
   ON_DISABLE_PRINT_MACHINE = "onDisablePrintMachine",
   ON_SHOW_PRINT_SELECTION = "onShowPrintSelection",
