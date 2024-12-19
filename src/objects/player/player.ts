@@ -19,7 +19,6 @@ import { playerConfig } from "./config";
 const SPEED = 150;
 
 let canMoveUp = false;
-let canControlShip: boolean = false;
 let isControlShipEnabled: boolean = false;
 let canEnableMovement: boolean = false;
 let canPrintItem: boolean = false;

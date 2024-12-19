@@ -47,8 +47,10 @@ export enum Events {
   ON_RUN_OUT_OF_ENERGY = "onRunOutOfEnergy",
   ADD_FUEL = "addFuel",
 
+  // Print Events
   ON_ENABLE_PRINT_MACHINE = "onEnablePrintMachine",
   ON_DISABLE_PRINT_MACHINE = "onDisablePrintMachine",
+
   ON_SHOW_PRINT_SELECTION = "onShowPrintSelection",
   ON_HIDE_PRINT_SELECTION = "onHidePrintSelection",
   ON_SELECT_LEFT = "onSelectLeft",

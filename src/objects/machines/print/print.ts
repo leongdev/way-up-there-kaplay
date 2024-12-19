@@ -76,5 +76,3 @@ export const getPrinter = (position: Vec2) => {
 
   return printMachine;
 };
-
-const onPrintItem = () => {};
