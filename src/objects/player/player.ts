@@ -15,9 +15,10 @@ const SPEED = 150;
 // Movement Flags
 let canMoveHorizontally: boolean = false;
 let canMoveVertically: boolean = false;
+let canMove: boolean = true;
 
 // Ship Control Flag
-let canMove: boolean = false;
+let canControlShip: boolean = false;
 
 export function getPlayer(position: Vec2): GameObj {
   const player = loadPlayer(position);
@@ -27,9 +28,47 @@ export function getPlayer(position: Vec2): GameObj {
   handleVerticalMovement(player);
   handleHorizontalMovement(player);
   handleController();
+  handlePrintCrystal();
+  handlePrintPower();
 
   return player;
 }
+
+const handlePrintPower = () => {
+  k.on(
+    Events.ON_ENABLE_POWER_PRINT_MACHINE,
+    Objects.PRINT_POWER_MACHINE,
+    () => {
+      canMove = false;
+    }
+  );
+
+  k.on(
+    Events.ON_DISABLE_POWER_PRINT_MACHINE,
+    Objects.PRINT_POWER_MACHINE,
+    () => {
+      canMove = true;
+    }
+  );
+};
+
+const handlePrintCrystal = () => {
+  k.on(
+    Events.ON_ENABLE_CRYSTAL_PRINT_MACHINE,
+    Objects.PRINT_CRYSTAL_MACHINE,
+    () => {
+      canMove = false;
+    }
+  );
+
+  k.on(
+    Events.ON_DISABLE_CRYSTAL_PRINT_MACHINE,
+    Objects.PRINT_CRYSTAL_MACHINE,
+    () => {
+      canMove = true;
+    }
+  );
+};
 
 /**
  * This function handles the controller object
@@ -37,11 +76,11 @@ export function getPlayer(position: Vec2): GameObj {
  */
 const handleController = () => {
   k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
-    canMove = true;
+    canControlShip = true;
   });
 
   k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
-    canMove = false;
+    canControlShip = false;
   });
 };
 
@@ -77,7 +116,12 @@ const handleAnimation = (player: GameObj) => {
   // Horizontal Movement
   onInput(
     () => {
-      if (player.isGrounded() && !canMoveVertically && !canMove)
+      if (
+        player.isGrounded() &&
+        !canMoveVertically &&
+        !canControlShip &&
+        canMove
+      )
         player.play("run");
     },
     () => {
@@ -100,7 +144,7 @@ const handleAnimation = (player: GameObj) => {
   });
 
   player.onCollide(Objects.CONTROLLER, () => {
-    if (canMove) player.play("idle");
+    if (canControlShip) player.play("idle");
   });
 };
 
@@ -142,15 +186,17 @@ export const handleHorizontalMovement = (player: GameObj) => {
   // LEFT
   onInput(
     () => {
-      if (canMove) {
+      if (canControlShip) {
         player.trigger(Events.ON_MOVE_SHIP_LEFT);
         if (!canMoveHorizontally) {
           player.play("idle");
           canMoveHorizontally = true;
         }
       } else {
-        player.move(-SPEED, 0);
-        player.flipX = true;
+        if (canMove) {
+          player.move(-SPEED, 0);
+          player.flipX = true;
+        }
       }
     },
     () => {
@@ -163,15 +209,17 @@ export const handleHorizontalMovement = (player: GameObj) => {
   // RIGHT
   onInput(
     () => {
-      if (canMove) {
+      if (canControlShip) {
         player.trigger(Events.ON_MOVE_SHIP_RIGHT);
         if (!canMoveHorizontally) {
           player.play("idle");
           canMoveHorizontally = true;
         }
       } else {
-        player.move(SPEED, 0);
-        player.flipX = false;
+        if (canMove) {
+          player.move(SPEED, 0);
+          player.flipX = false;
+        }
       }
     },
     () => {
