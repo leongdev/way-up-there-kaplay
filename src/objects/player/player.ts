@@ -5,12 +5,6 @@ import {
   isKeyHorizontalDown,
   isKeyVerticalDown,
   onInput,
-  onInputDown,
-  onInputHorizontal,
-  onInputLeft,
-  onInputRight,
-  onInputUp,
-  onInputVertical,
 } from "../../settings/inputs";
 import { k } from "../../settings/kaplay";
 import { Events, Objects } from "../../utils/types";
@@ -21,8 +15,6 @@ const SPEED = 150;
 let canMoveUp = false;
 let isControlShipEnabled: boolean = false;
 let canEnableMovement: boolean = false;
-let canPrintItem: boolean = false;
-let canMove: boolean = true;
 
 export function getPlayer(position: Vec2): GameObj {
   const player = loadPlayer(position);
@@ -32,62 +24,9 @@ export function getPlayer(position: Vec2): GameObj {
   handleVerticalMovement(player);
   handleHorizontalMovement(player);
   handleController();
-  handlePrintMachine(player);
 
   return player;
 }
-
-const handlePrintMachine = (player: GameObj) => {
-  onInput(
-    () => {
-      if (canPrintItem) {
-        player.trigger(Events.ON_SHOW_PRINT_SELECTION);
-        canMove = false;
-        player.play("idle");
-      }
-    },
-    () => {
-      if (canPrintItem) {
-        player.trigger(Events.ON_HIDE_PRINT_SELECTION);
-        canMove = true;
-      }
-    },
-    InputMethod.PRESS,
-    InputConfig.fire
-  );
-
-  onInput(
-    () => {
-      if (canPrintItem) player.trigger(Events.ON_SELECT_LEFT);
-    },
-    () => {
-      if (canPrintItem) player.trigger(Events.ON_PRINT_ITEM_SELECTED);
-    },
-    InputMethod.PRESS,
-    InputConfig.left
-  );
-
-  onInput(
-    () => {
-      if (canPrintItem) player.trigger(Events.ON_SELECT_RIGHT);
-    },
-    () => {
-      if (canPrintItem) player.trigger(Events.ON_PRINT_ITEM_SELECTED);
-    },
-    InputMethod.PRESS,
-    InputConfig.right
-  );
-
-  player.onCollide(Objects.PRINT_MACHINE, () => {
-    canPrintItem = true;
-    player.trigger(Events.ON_ENABLE_PRINT_MACHINE);
-  });
-
-  player.onCollideEnd(Objects.PRINT_MACHINE, () => {
-    canPrintItem = false;
-    player.trigger(Events.ON_DISABLE_PRINT_MACHINE);
-  });
-};
 
 /**
  * This function handles the controller object
@@ -121,24 +60,21 @@ const loadPlayer = (position: Vec2) => {
 
 const handleAnimation = (player: GameObj) => {
   // Vertical Movement
-  onInputVertical(
+  onInput(
     () => {
       if (canMoveUp) player.play("up");
     },
     () => {
       if (!isKeyVerticalDown() && canMoveUp) player.play("up_idle");
     },
-    InputMethod.PRESS
+    InputMethod.PRESS,
+    [...InputConfig.up, ...InputConfig.down]
   );
 
   // Horizontal Movement
-  onInputHorizontal(
+  onInput(
     () => {
-      if (!canMove) {
-        player.play("idle");
-        return;
-      }
-      if (player.isGrounded() && !canMoveUp && !isControlShipEnabled && canMove)
+      if (player.isGrounded() && !canMoveUp && !isControlShipEnabled)
         player.play("run");
     },
     () => {
@@ -146,7 +82,8 @@ const handleAnimation = (player: GameObj) => {
         player.play("idle");
       }
     },
-    InputMethod.PRESS
+    InputMethod.PRESS,
+    [...InputConfig.left, ...InputConfig.right]
   );
 
   player.onCollideEnd(Objects.STAIR, () => {
@@ -175,21 +112,33 @@ const handleVerticalMovement = (player: GameObj) => {
     player.gravityScale = 1;
   });
 
-  onInputUp(() => {
-    if (canMoveUp) {
-      player.move(0, -SPEED);
-    }
-  });
+  // UP
+  onInput(
+    () => {
+      if (canMoveUp) {
+        player.move(0, -SPEED);
+      }
+    },
+    () => {},
+    InputMethod.DOWN,
+    InputConfig.up
+  );
 
-  onInputDown(() => {
-    player.move(0, SPEED);
-  });
+  // DOWN
+  onInput(
+    () => {
+      player.move(0, SPEED);
+    },
+    () => {},
+    InputMethod.DOWN,
+    InputConfig.down
+  );
 };
 
 export const handleHorizontalMovement = (player: GameObj) => {
-  onInputLeft(
+  // LEFT
+  onInput(
     () => {
-      if (!canMove) return;
       if (isControlShipEnabled) {
         player.trigger(Events.ON_MOVE_SHIP_LEFT);
         if (!canEnableMovement) {
@@ -203,12 +152,14 @@ export const handleHorizontalMovement = (player: GameObj) => {
     },
     () => {
       canEnableMovement = false;
-    }
+    },
+    InputMethod.DOWN,
+    InputConfig.left
   );
 
-  onInputRight(
+  // RIGHT
+  onInput(
     () => {
-      if (!canMove) return;
       if (isControlShipEnabled) {
         player.trigger(Events.ON_MOVE_SHIP_RIGHT);
         if (!canEnableMovement) {
@@ -222,6 +173,8 @@ export const handleHorizontalMovement = (player: GameObj) => {
     },
     () => {
       canEnableMovement = false;
-    }
+    },
+    InputMethod.DOWN,
+    InputConfig.right
   );
 };

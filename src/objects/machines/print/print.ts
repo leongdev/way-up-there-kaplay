@@ -2,10 +2,8 @@ import { Vec2 } from "kaplay";
 import { k } from "../../../settings/kaplay";
 import { Events, Objects } from "../../../utils/types";
 import { printConfig, printSelectionConfig } from "./config";
-import { InputConfig, InputMethod, onInput } from "../../../settings/inputs";
 
 let CAN_SHOW_SELECTION: boolean = false;
-let ITEM_SELECTED: number = 0;
 
 export const getPrinter = (position: Vec2) => {
   k.loadSprite(Objects.PRINT_MACHINE, "sprites/print_machine.png", printConfig);

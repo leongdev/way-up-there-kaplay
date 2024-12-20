@@ -43,12 +43,27 @@
           "checkboxes": [
             {
               "id": "3ca1b0c2-a922-4fca-9568-93bd3021bb65",
-              "title": "Move the colliosion logic to the component ",
-              "checked": false
+              "title": "Move Ship",
+              "checked": true
             },
             {
               "id": "70d712a7-22d7-4a66-b66d-33cafbff11bd",
-              "title": "Explore events",
+              "title": "3D Printer",
+              "checked": false
+            },
+            {
+              "id": "b01e6384-0091-4538-9a7d-2716da792a1a",
+              "title": "3D Printer 2",
+              "checked": false
+            },
+            {
+              "id": "2a4c412a-0b61-435c-976a-c8b0525c1562",
+              "title": "Mix machine",
+              "checked": false
+            },
+            {
+              "id": "37726bb2-846d-4fab-a970-6af95dd14aa6",
+              "title": "Controller",
               "checked": false
             }
           ],

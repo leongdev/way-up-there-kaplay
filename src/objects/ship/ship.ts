@@ -8,7 +8,7 @@ import { shipConfig, ShipFiringTypes } from "./config";
 
 const SPEED = 150;
 
-let FIRE_TYPE = ShipFiringTypes.A;
+const FIRE_TYPE = ShipFiringTypes.A;
 let IS_FIRING: boolean = false;
 let FIRE_DIRECTION: boolean = false;
 let CAN_FIRE: boolean = true;
