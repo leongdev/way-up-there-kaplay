@@ -9,18 +9,15 @@ import { getFuel } from "../objects/fuel/fuel";
 import { getGrass, GrassType } from "../objects/grass/grass";
 import { getFuelMachine } from "../objects/machines/fuel/fuel";
 import { getMixMachine } from "../objects/machines/mix/mix";
-import { getPrinter } from "../objects/machines/print/print";
+import { getCrystalPrinter } from "../objects/machines/crystal/crystal";
 import { getPlayer } from "../objects/player/player";
 import { getShip } from "../objects/ship/ship";
 import { getStair } from "../objects/stair/stair";
 import { k } from "../settings/kaplay";
 import { Objects, Scenes } from "../utils/types";
+import { getPowerPrinter } from "../objects/machines/power/power";
 
 const GRAVITY_DEFAULT = 1000;
-
-let _shipDirection = 0;
-let _isControllingShip = false;
-
 k.scene(Scenes.INITIAL, () => {
   //Hooks
   useFullScreen("f");
@@ -65,10 +62,7 @@ k.scene(Scenes.INITIAL, () => {
 
   getFuelMachine(new Vec2(192, 127));
   getMixMachine(new Vec2(250, 47));
-  getPrinter(new Vec2(370, 110));
+  getCrystalPrinter(new Vec2(375, 109));
+  getPowerPrinter(new Vec2(433, 219));
   getFuel(new Vec2(177, 210));
 });
-
-const onChangeDirection = (direction: number) => {
-  _shipDirection = direction;
-};
