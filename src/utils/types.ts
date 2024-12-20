@@ -51,8 +51,11 @@ export enum Events {
   // Print Events
   ON_ENABLE_CRYSTAL_PRINT_MACHINE = "onEnablePrintMachine",
   ON_DISABLE_CRYSTAL_PRINT_MACHINE = "onDisablePrintMachine",
+  ON_CREATE_CRYSTAL = "onCreateCrystal",
+
   ON_ENABLE_POWER_PRINT_MACHINE = "onEnablePrintMachinePower",
   ON_DISABLE_POWER_PRINT_MACHINE = "onDisablePrintMachinePower",
+  ON_CREATE_POWER = "onCreatePower",
 
   ON_SHOW_PRINT_SELECTION = "onShowPrintSelection",
   ON_HIDE_PRINT_SELECTION = "onHidePrintSelection",
