@@ -14,9 +14,10 @@ import { getPlayer } from "../objects/player/player";
 import { getShip } from "../objects/ship/ship";
 import { getStair } from "../objects/stair/stair";
 import { k } from "../settings/kaplay";
-import { Objects, Scenes } from "../utils/types";
+import { ConsumableTypes, Objects, Scenes } from "../utils/types";
 import { getPowerPrinter } from "../objects/machines/power/power";
-import { getCrystal } from "../objects/crystal/crystal";
+import { getConsumable } from "../objects/consumable/consumable";
+import { getPower } from "../objects/power/power";
 
 const GRAVITY_DEFAULT = 1000;
 k.scene(Scenes.INITIAL, () => {
@@ -67,5 +68,16 @@ k.scene(Scenes.INITIAL, () => {
   getPowerPrinter(new Vec2(433, 219));
   getFuel(new Vec2(177, 210));
 
-  getCrystal(new Vec2(300, 230));
+  getConsumable(
+    new Vec2(300, 230),
+    "sprites/crystal.png",
+    ConsumableTypes.CRYSTAL
+  );
+  getConsumable(
+    new Vec2(280, 230),
+    "sprites/crystal.png",
+    ConsumableTypes.CRYSTAL
+  );
+  getConsumable(new Vec2(320, 230), "sprites/power.png", ConsumableTypes.POWER);
+  getConsumable(new Vec2(310, 230), "sprites/power.png", ConsumableTypes.POWER);
 });

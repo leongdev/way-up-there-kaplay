@@ -1,4 +1,4 @@
-export const crystalConfig = {
+export const consumableConfig = {
   sliceX: 30,
   anims: {
     idle: {

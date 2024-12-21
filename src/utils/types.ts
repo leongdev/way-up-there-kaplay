@@ -66,6 +66,11 @@ export enum Events {
   ON_SELECT_LEFT = "onSelectLeft",
   ON_SELECT_RIGHT = "onSelectRight",
   ON_PRINT_ITEM_SELECTED = "onPrintItemSelected",
+
+  // Consumable Events
+  ON_DOCK_CRYSTAL = "onDockCrystal",
+  ON_UN_DOCK_CRYSTAL = "onUnDockCrystal",
+  ON_DOCK_POWER = "onDockPower",
 }
 
 export enum Scenes {
@@ -83,4 +88,9 @@ export interface CollisionObject {
   opacity: number;
   color: number[];
   colliders: Array<Collider>;
+}
+
+export enum ConsumableTypes {
+  CRYSTAL = "crystal",
+  POWER = "power",
 }
