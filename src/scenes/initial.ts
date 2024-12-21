@@ -16,6 +16,7 @@ import { getStair } from "../objects/stair/stair";
 import { k } from "../settings/kaplay";
 import { Objects, Scenes } from "../utils/types";
 import { getPowerPrinter } from "../objects/machines/power/power";
+import { getCrystal } from "../objects/crystal/crystal";
 
 const GRAVITY_DEFAULT = 1000;
 k.scene(Scenes.INITIAL, () => {
@@ -65,4 +66,6 @@ k.scene(Scenes.INITIAL, () => {
   getCrystalPrinter(new Vec2(375, 109));
   getPowerPrinter(new Vec2(433, 219));
   getFuel(new Vec2(177, 210));
+
+  getCrystal(new Vec2(300, 230));
 });

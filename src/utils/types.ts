@@ -34,12 +34,16 @@ export enum Objects {
   GRASS_P = "grass_p",
   GRASS_Q = "grass_q",
   COLLIDER = "collider",
+  CRYSTAL = "crystal",
+  POWER = "power",
 }
 
 export enum Events {
   // Ship Events
   ON_MOVE_SHIP_LEFT = "onMoveShipLeft",
   ON_MOVE_SHIP_RIGHT = "onMoveShipRight",
+  ON_MOVE_SHIP_LEFT_UP = "onMoveShipLeftUp",
+  ON_MOVE_SHIP_RIGHT_UP = "onMoveShipRightUp",
   ON_DISABLE_CONTROL_SHIP = "onDisableControlShip",
   ON_ENABLE_CONTROL_SHIP = "onEnableControlShip",
   ON_FIRE_SHIP = "onFireShip",

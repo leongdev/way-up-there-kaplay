@@ -43,8 +43,12 @@ export const getController = (position: Vec2) => {
     controller.play("right");
   });
 
-  k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.PLAYER, () => {
-    if (IS_COLLIDING_PLAYER) controller.play("outline");
+  k.on(Events.ON_MOVE_SHIP_RIGHT_UP, Objects.PLAYER, () => {
+    controller.play("outline");
+  });
+
+  k.on(Events.ON_MOVE_SHIP_LEFT_UP, Objects.PLAYER, () => {
+    controller.play("outline");
   });
 
   onInput(
@@ -55,17 +59,9 @@ export const getController = (position: Vec2) => {
     },
     () => {
       if (IS_COLLIDING_PLAYER) {
+        controller.play("outline");
         controller.trigger(Events.ON_DISABLE_CONTROL_SHIP);
       }
-    },
-    InputMethod.PRESS,
-    InputConfig.fire
-  );
-
-  onInput(
-    () => {},
-    () => {
-      controller.trigger(Events.ON_DISABLE_CONTROL_SHIP);
     },
     InputMethod.PRESS,
     InputConfig.fire

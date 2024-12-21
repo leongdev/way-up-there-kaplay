@@ -21,7 +21,19 @@ let canMove: boolean = true;
 let canControlShip: boolean = false;
 
 export function getPlayer(position: Vec2): GameObj {
-  const player = loadPlayer(position);
+  k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
+  const player = k.add([
+    k.sprite(Objects.PLAYER),
+    pos(position),
+    anchor("bot"),
+    area({
+      shape: new Rect(vec2(0, 0), 8, 16),
+    }),
+    body(),
+    z(1),
+    Objects.PLAYER,
+  ]);
+
   player.play("idle");
 
   handleAnimation(player);
@@ -82,22 +94,6 @@ const handleController = () => {
   k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
     canControlShip = false;
   });
-};
-
-const loadPlayer = (position: Vec2) => {
-  k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
-
-  return k.add([
-    k.sprite(Objects.PLAYER),
-    pos(position),
-    anchor("bot"),
-    area({
-      shape: new Rect(vec2(0, 0), 8, 16),
-    }),
-    body(),
-    z(1),
-    Objects.PLAYER,
-  ]);
 };
 
 const handleAnimation = (player: GameObj) => {
@@ -200,6 +196,7 @@ export const handleHorizontalMovement = (player: GameObj) => {
       }
     },
     () => {
+      if (canControlShip) player.trigger(Events.ON_MOVE_SHIP_LEFT_UP);
       canMoveHorizontally = false;
     },
     InputMethod.DOWN,
@@ -223,6 +220,7 @@ export const handleHorizontalMovement = (player: GameObj) => {
       }
     },
     () => {
+      if (canControlShip) player.trigger(Events.ON_MOVE_SHIP_RIGHT_UP);
       canMoveHorizontally = false;
     },
     InputMethod.DOWN,
