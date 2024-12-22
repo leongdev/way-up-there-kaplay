@@ -7,16 +7,15 @@ import { levelConfig } from "../levels/level_1/config";
 import { getController } from "../objects/controller/controller";
 import { getFuel } from "../objects/fuel/fuel";
 import { getGrass, GrassType } from "../objects/grass/grass";
+import { getCrystalPrinter } from "../objects/machines/crystal/crystal";
 import { getFuelMachine } from "../objects/machines/fuel/fuel";
 import { getMixMachine } from "../objects/machines/mix/mix";
-import { getCrystalPrinter } from "../objects/machines/crystal/crystal";
+import { getPowerPrinter } from "../objects/machines/power/power";
 import { getPlayer } from "../objects/player/player";
 import { getShip } from "../objects/ship/ship";
 import { getStair } from "../objects/stair/stair";
 import { k } from "../settings/kaplay";
 import { Objects, Scenes } from "../utils/types";
-import { getPowerPrinter } from "../objects/machines/power/power";
-import { getCrystal } from "../objects/crystal/crytal";
 
 const GRAVITY_DEFAULT = 1000;
 k.scene(Scenes.INITIAL, () => {
@@ -66,7 +65,4 @@ k.scene(Scenes.INITIAL, () => {
   getCrystalPrinter(new Vec2(375, 109));
   getPowerPrinter(new Vec2(433, 219));
   getFuel(new Vec2(177, 210));
-
-  getCrystal(new Vec2(300, 230));
-  getCrystal(new Vec2(280, 230));
 });

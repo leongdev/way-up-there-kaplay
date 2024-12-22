@@ -37,6 +37,7 @@ export enum Objects {
   COLLIDER_GROUND = "collider_ground",
   CRYSTAL = "crystal",
   POWER = "power",
+  PROGRESS = "progress",
 }
 
 export enum Events {
@@ -54,8 +55,6 @@ export enum Events {
   ADD_FUEL = "addFuel",
 
   // Print Events
-  ON_ENABLE_CRYSTAL_PRINT_MACHINE = "onEnablePrintMachine",
-  ON_DISABLE_CRYSTAL_PRINT_MACHINE = "onDisablePrintMachine",
   ON_CREATE_CRYSTAL = "onCreateCrystal",
   ON_START_PRINT_CRYSTAL = "onStartPrintCrystal",
   ON_FINISH_PRINT_CRYSTAL = "onFinishPrintCrystal",
@@ -72,6 +71,8 @@ export enum Events {
 
   // Consumable Events
   ON_DOCK_CRYSTAL = "onDockCrystal",
+  ON_HAS_CRYSTAL = "onHasCrystal",
+  ON_REMOVE_CRYSTAL = "onRemoveCrystal",
   ON_DOCK_POWER = "onDockPower",
 }
 

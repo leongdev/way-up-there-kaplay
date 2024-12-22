@@ -19,11 +19,5 @@ export const printConfig = {
       speed: 10,
       loop: false,
     },
-    printPower: {
-      from: 11,
-      to: 19,
-      speed: 10,
-      loop: false,
-    },
   },
 };

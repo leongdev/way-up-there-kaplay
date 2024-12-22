@@ -77,6 +77,12 @@ const handleCrystal = (player: GameObj) => {
   crystal.play("idle");
 
   k.on(Events.ON_DOCK_CRYSTAL, ConsumableTypes.CRYSTAL, () => {
+    player.trigger(Events.ON_HAS_CRYSTAL);
+    hasCrystal = true;
+    crystal.hidden = false;
+  });
+
+  k.on(Events.ON_FINISH_PRINT_CRYSTAL, Objects.PRINT_CRYSTAL_MACHINE, () => {
     hasCrystal = true;
     crystal.hidden = false;
   });
@@ -84,6 +90,7 @@ const handleCrystal = (player: GameObj) => {
   onInput(
     () => {
       if (hasCrystal) {
+        player.trigger(Events.ON_REMOVE_CRYSTAL);
         hasCrystal = false;
         crystal.hidden = true;
 
@@ -119,21 +126,13 @@ const handlePrintPower = () => {
 };
 
 const handlePrintCrystal = () => {
-  k.on(
-    Events.ON_ENABLE_CRYSTAL_PRINT_MACHINE,
-    Objects.PRINT_CRYSTAL_MACHINE,
-    () => {
-      canMove = false;
-    }
-  );
+  k.on(Events.ON_START_PRINT_CRYSTAL, Objects.PRINT_CRYSTAL_MACHINE, () => {
+    canMove = false;
+  });
 
-  k.on(
-    Events.ON_DISABLE_CRYSTAL_PRINT_MACHINE,
-    Objects.PRINT_CRYSTAL_MACHINE,
-    () => {
-      canMove = true;
-    }
-  );
+  k.on(Events.ON_FINISH_PRINT_CRYSTAL, Objects.PRINT_CRYSTAL_MACHINE, () => {
+    canMove = true;
+  });
 };
 
 /**
