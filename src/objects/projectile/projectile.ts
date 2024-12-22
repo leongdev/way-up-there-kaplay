@@ -1,4 +1,4 @@
-import { GameObj, Vec2 } from "kaplay";
+import { Vec2 } from "kaplay";
 import { k } from "../../settings/kaplay";
 import { Objects } from "../../utils/types";
 import { ProjectileTypes } from "./config";
@@ -31,7 +31,7 @@ export const getProjectile = (
 
   proj.gravityScale = 0;
 
-  proj.onCollide(Objects.COLLIDER, () => {
+  proj.onCollide(Objects.COLLIDER_GROUND, () => {
     proj.destroy();
   });
 
