@@ -10,16 +10,23 @@ import { k } from "../../settings/kaplay";
 import { ConsumableTypes, Events, Objects } from "../../utils/types";
 import { playerConfig } from "./config";
 import { consumableConfig } from "../consumable/config";
+import { getConsumable } from "../consumable/consumable";
 
 const SPEED = 150;
+const THROW_FORCE = 4000;
 
 // Movement Flags
 let canMoveHorizontally: boolean = false;
 let canMoveVertically: boolean = false;
 let canMove: boolean = true;
+let direction: boolean = true;
 
 // Ship Control Flag
 let canControlShip: boolean = false;
+
+// Consumable Flag
+let hasCrystal: boolean = false;
+// let hasPower: boolean = false;
 
 export function getPlayer(position: Vec2): GameObj {
   k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
@@ -50,7 +57,7 @@ export function getPlayer(position: Vec2): GameObj {
   return player;
 }
 
-const handleCrystal = (player) => {
+const handleCrystal = (player: GameObj) => {
   const crystal = k.add([
     k.sprite(Objects.CRYSTAL),
     pos(player.pos.x, player.pos.y - 16),
@@ -70,10 +77,31 @@ const handleCrystal = (player) => {
   crystal.play("idle");
 
   k.on(Events.ON_DOCK_CRYSTAL, ConsumableTypes.CRYSTAL, () => {
+    hasCrystal = true;
     crystal.hidden = false;
   });
 
-  k.on(Events.ON_UN_DOCK_CRYSTAL, ConsumableTypes.CRYSTAL, () => {});
+  onInput(
+    () => {
+      if (hasCrystal) {
+        hasCrystal = false;
+        crystal.hidden = true;
+
+        const newCrystal = getConsumable(
+          crystal.pos,
+          "sprites/crystal.png",
+          ConsumableTypes.CRYSTAL
+        );
+
+        newCrystal.addForce(
+          vec2(direction ? THROW_FORCE : -THROW_FORCE, -THROW_FORCE)
+        );
+      }
+    },
+    () => {},
+    InputMethod.PRESS,
+    InputConfig.fire
+  );
 };
 
 const handlePrintPower = () => {
@@ -118,7 +146,7 @@ const handlePrintCrystal = () => {
  */
 const handleController = () => {
   k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
-    canControlShip = true;
+    if (!hasCrystal) canControlShip = true;
   });
 
   k.on(Events.ON_DISABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
@@ -222,6 +250,7 @@ export const handleHorizontalMovement = (player: GameObj) => {
         if (canMove) {
           player.move(-SPEED, 0);
           player.flipX = true;
+          direction = false;
         }
       }
     },
@@ -245,6 +274,7 @@ export const handleHorizontalMovement = (player: GameObj) => {
       } else {
         if (canMove) {
           player.move(SPEED, 0);
+          direction = true;
           player.flipX = false;
         }
       }

@@ -69,7 +69,6 @@ export enum Events {
 
   // Consumable Events
   ON_DOCK_CRYSTAL = "onDockCrystal",
-  ON_UN_DOCK_CRYSTAL = "onUnDockCrystal",
   ON_DOCK_POWER = "onDockPower",
 }
 

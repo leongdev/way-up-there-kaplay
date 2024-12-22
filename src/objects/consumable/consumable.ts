@@ -3,7 +3,6 @@ import { k } from "../../settings/kaplay";
 import { ConsumableTypes, Events, Objects } from "../../utils/types";
 import { consumableConfig } from "./config";
 import { InputConfig, InputMethod, onInput } from "../../settings/inputs";
-import { v4 } from "uuid";
 
 let canDock: boolean = false;
 let collidedObj: GameObj;
@@ -62,6 +61,7 @@ const getConsumableGround = (position, type) => {
       if (canDock && collidedObj) {
         k.destroy(collidedObj);
         onDockConsumable(type, consumable);
+        canDock = false;
       }
     },
     () => {},
