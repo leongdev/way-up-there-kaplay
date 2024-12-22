@@ -34,6 +34,7 @@ export enum Objects {
   GRASS_P = "grass_p",
   GRASS_Q = "grass_q",
   COLLIDER = "collider",
+  COLLIDER_GROUND = "collider_ground",
   CRYSTAL = "crystal",
   POWER = "power",
 }

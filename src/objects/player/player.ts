@@ -9,11 +9,11 @@ import {
 import { k } from "../../settings/kaplay";
 import { ConsumableTypes, Events, Objects } from "../../utils/types";
 import { playerConfig } from "./config";
-import { consumableConfig } from "../consumable/config";
-import { getConsumable } from "../consumable/consumable";
+import { consumableConfig } from "../crystal/config";
+import { getCrystal } from "../crystal/crytal";
 
 const SPEED = 150;
-const THROW_FORCE = 4000;
+const THROW_FORCE = 6000;
 
 // Movement Flags
 let canMoveHorizontally: boolean = false;
@@ -87,11 +87,7 @@ const handleCrystal = (player: GameObj) => {
         hasCrystal = false;
         crystal.hidden = true;
 
-        const newCrystal = getConsumable(
-          crystal.pos,
-          "sprites/crystal.png",
-          ConsumableTypes.CRYSTAL
-        );
+        const newCrystal = getCrystal(crystal.pos);
 
         newCrystal.addForce(
           vec2(direction ? THROW_FORCE : -THROW_FORCE, -THROW_FORCE)

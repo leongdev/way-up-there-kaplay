@@ -1,31 +1,31 @@
 import { GameObj } from "kaplay";
 import { k } from "../../settings/kaplay";
-import { ConsumableTypes, Events, Objects } from "../../utils/types";
+import { Events, Objects } from "../../utils/types";
 import { consumableConfig } from "./config";
 import { InputConfig, InputMethod, onInput } from "../../settings/inputs";
 
 let canDock: boolean = false;
 let collidedObj: GameObj;
 
-export const getConsumable = (position, src: string, type: ConsumableTypes) => {
-  k.loadSprite(type, src, consumableConfig);
+export const getCrystal = (position) => {
+  k.loadSprite(Objects.CRYSTAL, "sprites/crystal.png", consumableConfig);
 
   const consumable = k.add([
-    sprite(type),
+    sprite(Objects.CRYSTAL),
     pos(position),
     z(2),
     area(),
     body(),
     anchor("bot"),
-    type,
+    Objects.CRYSTAL,
   ]);
 
   consumable.play("idle");
 
-  consumable.onCollide(Objects.COLLIDER, (obj: GameObj) => {
+  consumable.onCollide(Objects.COLLIDER_GROUND, (obj: GameObj) => {
     const lastPosition = new Vec2(consumable.pos.x, obj.pos.y);
     consumable.destroy();
-    getConsumableGround(lastPosition, type);
+    getConsumableGround(lastPosition, Objects.CRYSTAL);
   });
 
   return consumable;
@@ -60,7 +60,7 @@ const getConsumableGround = (position, type) => {
     () => {
       if (canDock && collidedObj) {
         k.destroy(collidedObj);
-        onDockConsumable(type, consumable);
+        consumable.trigger(Events.ON_DOCK_CRYSTAL);
         canDock = false;
       }
     },
@@ -68,17 +68,4 @@ const getConsumableGround = (position, type) => {
     InputMethod.PRESS,
     InputConfig.fire
   );
-};
-
-const onDockConsumable = (type: ConsumableTypes, consumable: GameObj) => {
-  switch (type) {
-    case ConsumableTypes.CRYSTAL:
-      consumable.trigger(Events.ON_DOCK_CRYSTAL);
-      break;
-    case ConsumableTypes.POWER:
-      consumable.trigger(Events.ON_DOCK_POWER);
-      break;
-    default:
-      break;
-  }
 };

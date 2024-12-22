@@ -10,7 +10,9 @@ export const useColliders = (collisionObject: CollisionObject) => {
       body({ isStatic: true }),
       color(color[0], color[1], color[2]),
       opacity(collisionObject.opacity),
-      Objects.COLLIDER,
+      collider.width > collider.height
+        ? Objects.COLLIDER_GROUND
+        : Objects.COLLIDER,
     ]);
   });
 };
