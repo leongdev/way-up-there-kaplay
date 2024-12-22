@@ -21,8 +21,6 @@ let canMove: boolean = true;
 // Ship Control Flag
 let canControlShip: boolean = false;
 
-let canUndockCrystal: boolean = false;
-
 export function getPlayer(position: Vec2): GameObj {
   k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
   k.loadSprite(Objects.CRYSTAL, "sprites/crystal.png", consumableConfig);
@@ -66,14 +64,13 @@ const handleCrystal = (player) => {
   crystal.hidden = true;
 
   player.onUpdate(() => {
-    crystal.pos = player.pos.sub(0, 19);
+    crystal.pos = player.pos.sub(0, 16);
   });
 
   crystal.play("idle");
 
   k.on(Events.ON_DOCK_CRYSTAL, ConsumableTypes.CRYSTAL, () => {
     crystal.hidden = false;
-    canUndockCrystal = true;
   });
 
   k.on(Events.ON_UN_DOCK_CRYSTAL, ConsumableTypes.CRYSTAL, () => {});
