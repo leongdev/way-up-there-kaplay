@@ -59,9 +59,9 @@ export enum Events {
   ON_START_PRINT_CRYSTAL = "onStartPrintCrystal",
   ON_FINISH_PRINT_CRYSTAL = "onFinishPrintCrystal",
 
-  ON_ENABLE_POWER_PRINT_MACHINE = "onEnablePrintMachinePower",
-  ON_DISABLE_POWER_PRINT_MACHINE = "onDisablePrintMachinePower",
   ON_CREATE_POWER = "onCreatePower",
+  ON_START_PRINT_POWER = "onStartPrintPower",
+  ON_FINISH_PRINT_POWER = "onFinishPrintPower",
 
   ON_SHOW_PRINT_SELECTION = "onShowPrintSelection",
   ON_HIDE_PRINT_SELECTION = "onHidePrintSelection",
@@ -73,7 +73,10 @@ export enum Events {
   ON_DOCK_CRYSTAL = "onDockCrystal",
   ON_HAS_CRYSTAL = "onHasCrystal",
   ON_REMOVE_CRYSTAL = "onRemoveCrystal",
+
   ON_DOCK_POWER = "onDockPower",
+  ON_HAS_POWER = "onHasPower",
+  ON_REMOVE_POWER = "onRemovePower",
 }
 
 export enum Scenes {

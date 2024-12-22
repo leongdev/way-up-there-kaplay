@@ -11,6 +11,7 @@ import { ConsumableTypes, Events, Objects } from "../../utils/types";
 import { playerConfig } from "./config";
 import { consumableConfig } from "../crystal/config";
 import { getCrystal } from "../crystal/crytal";
+import { getPower } from "../power/power";
 
 const SPEED = 150;
 const THROW_FORCE = 6000;
@@ -26,11 +27,12 @@ let canControlShip: boolean = false;
 
 // Consumable Flag
 let hasCrystal: boolean = false;
-// let hasPower: boolean = false;
+let hasPower: boolean = false;
 
 export function getPlayer(position: Vec2): GameObj {
   k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
   k.loadSprite(Objects.CRYSTAL, "sprites/crystal.png", consumableConfig);
+  k.loadSprite(Objects.POWER, "sprites/power.png", consumableConfig);
 
   const player = k.add([
     k.sprite(Objects.PLAYER),
@@ -53,9 +55,60 @@ export function getPlayer(position: Vec2): GameObj {
   handlePrintCrystal();
   handlePrintPower();
   handleCrystal(player);
+  handlePower(player);
 
   return player;
 }
+
+const handlePower = (player: GameObj) => {
+  const power = k.add([
+    k.sprite(Objects.POWER),
+    pos(player.pos.x, player.pos.y - 16),
+    anchor("bot"),
+    area(),
+    z(1),
+    Objects.POWER,
+  ]);
+
+  power.parent = player;
+  power.hidden = true;
+
+  player.onUpdate(() => {
+    power.pos = player.pos.sub(0, 16);
+  });
+
+  power.play("idle");
+
+  k.on(Events.ON_DOCK_POWER, ConsumableTypes.POWER, () => {
+    player.trigger(Events.ON_HAS_POWER);
+    hasPower = true;
+    power.hidden = false;
+  });
+
+  k.on(Events.ON_FINISH_PRINT_POWER, Objects.PRINT_POWER_MACHINE, () => {
+    hasPower = true;
+    power.hidden = false;
+  });
+
+  onInput(
+    () => {
+      if (hasPower) {
+        player.trigger(Events.ON_REMOVE_POWER);
+        hasPower = false;
+        power.hidden = true;
+
+        const newPower = getPower(power.pos);
+
+        newPower.addForce(
+          vec2(direction ? THROW_FORCE : -THROW_FORCE, -THROW_FORCE)
+        );
+      }
+    },
+    () => {},
+    InputMethod.PRESS,
+    InputConfig.fire
+  );
+};
 
 const handleCrystal = (player: GameObj) => {
   const crystal = k.add([
@@ -108,21 +161,13 @@ const handleCrystal = (player: GameObj) => {
 };
 
 const handlePrintPower = () => {
-  k.on(
-    Events.ON_ENABLE_POWER_PRINT_MACHINE,
-    Objects.PRINT_POWER_MACHINE,
-    () => {
-      canMove = false;
-    }
-  );
+  k.on(Events.ON_START_PRINT_POWER, Objects.PRINT_POWER_MACHINE, () => {
+    canMove = false;
+  });
 
-  k.on(
-    Events.ON_DISABLE_POWER_PRINT_MACHINE,
-    Objects.PRINT_POWER_MACHINE,
-    () => {
-      canMove = true;
-    }
-  );
+  k.on(Events.ON_FINISH_PRINT_POWER, Objects.PRINT_POWER_MACHINE, () => {
+    canMove = true;
+  });
 };
 
 const handlePrintCrystal = () => {

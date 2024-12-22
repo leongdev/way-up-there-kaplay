@@ -13,15 +13,9 @@ export const printConfig = {
       speed: 10,
       loop: true,
     },
-    printCrystal: {
+    printPower: {
       from: 2,
       to: 10,
-      speed: 10,
-      loop: false,
-    },
-    printPower: {
-      from: 11,
-      to: 19,
       speed: 10,
       loop: false,
     },

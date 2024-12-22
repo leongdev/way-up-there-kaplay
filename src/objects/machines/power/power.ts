@@ -1,12 +1,14 @@
-import { Vec2 } from "kaplay";
+import { Vec2 as Vector2D } from "kaplay";
 import { k } from "../../../settings/kaplay";
 import { Events, Objects } from "../../../utils/types";
 import { printConfig } from "./config";
 import { InputConfig, InputMethod, onInput } from "../../../settings/inputs";
+import { getProgress } from "../../ui/progress/progress";
 
 let canEnablePrint: boolean = false;
+let canPrint: boolean = true;
 
-export const getPowerPrinter = (position: Vec2) => {
+export const getPowerPrinter = (position: Vector2D) => {
   k.loadSprite(
     Objects.PRINT_POWER_MACHINE,
     "sprites/print_machine_2.png",
@@ -21,6 +23,12 @@ export const getPowerPrinter = (position: Vec2) => {
     Objects.PRINT_POWER_MACHINE,
   ]);
 
+  const progress = getProgress(new Vec2(power.pos.x, power.pos.y - 10), () => {
+    progress.hidden = true;
+    power.trigger(Events.ON_FINISH_PRINT_POWER);
+    power.play("idle");
+  });
+
   power.play("idle");
 
   power.onCollide(Objects.PLAYER, () => {
@@ -33,17 +41,25 @@ export const getPowerPrinter = (position: Vec2) => {
     power.play("idle");
   });
 
+  k.on(Events.ON_HAS_POWER, Objects.PLAYER, () => {
+    canPrint = false;
+  });
+
+  k.on(Events.ON_REMOVE_POWER, Objects.PLAYER, () => {
+    canPrint = true;
+  });
+
   onInput(
     () => {
-      if (canEnablePrint) {
-        power.trigger(Events.ON_ENABLE_POWER_PRINT_MACHINE);
+      if (canEnablePrint && canPrint) {
+        progress.hidden = false;
+        progress.play("progress");
+        power.trigger(Events.ON_START_PRINT_POWER);
+        power.play("printPower");
+        canPrint = false;
       }
     },
-    () => {
-      if (canEnablePrint) {
-        power.trigger(Events.ON_DISABLE_POWER_PRINT_MACHINE);
-      }
-    },
+    () => {},
     InputMethod.DOWN,
     InputConfig.fire
   );
