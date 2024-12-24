@@ -28,6 +28,7 @@ let canControlShip: boolean = false;
 // Consumable Flag
 let hasCrystal: boolean = false;
 let hasPower: boolean = false;
+let canUploadItem: boolean = false;
 
 export function getPlayer(position: Vec2): GameObj {
   k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
@@ -56,9 +57,44 @@ export function getPlayer(position: Vec2): GameObj {
   handlePrintPower();
   handleCrystal(player);
   handlePower(player);
+  handleUploadItem(player);
 
   return player;
 }
+
+const handleUploadItem = (player: GameObj) => {
+  k.on(Events.ON_MIX_START, Objects.MIX_MACHINE, () => {
+    canMove = false;
+  });
+
+  k.on(Events.ON_MIX_FINISH, Objects.MIX_MACHINE, () => {
+    canMove = true;
+    hasCrystal = false;
+    hasPower = false;
+    canUploadItem = false;
+  });
+
+  k.on(Events.ON_ENABLE_UPLOAD, Objects.MIX_MACHINE, () => {
+    canUploadItem = true;
+  });
+
+  k.on(Events.ON_DISABLE_UPLOAD, Objects.MIX_MACHINE, () => {
+    canUploadItem = false;
+  });
+
+  k.on(Events.ON_UPLOAD_ITEM, Objects.MIX_MACHINE, (_, args) => {
+    const { crystalLocked, powerLocked } = args;
+
+    if (hasCrystal && !crystalLocked) {
+      player.trigger(Events.ON_UPLOAD_CRYSTAL);
+      player.trigger(Events.ON_REMOVE_CRYSTAL);
+    }
+    if (hasPower && !powerLocked) {
+      player.trigger(Events.ON_UPLOAD_POWER);
+      player.trigger(Events.ON_REMOVE_POWER);
+    }
+  });
+};
 
 const handlePower = (player: GameObj) => {
   const power = k.add([
@@ -90,9 +126,14 @@ const handlePower = (player: GameObj) => {
     power.hidden = false;
   });
 
+  k.on(Events.ON_UPLOAD_POWER, Objects.PLAYER, () => {
+    hasPower = false;
+    power.hidden = true;
+  });
+
   onInput(
     () => {
-      if (hasPower) {
+      if (hasPower && !canUploadItem) {
         player.trigger(Events.ON_REMOVE_POWER);
         hasPower = false;
         power.hidden = true;
@@ -140,9 +181,14 @@ const handleCrystal = (player: GameObj) => {
     crystal.hidden = false;
   });
 
+  k.on(Events.ON_UPLOAD_CRYSTAL, Objects.PLAYER, () => {
+    hasCrystal = false;
+    crystal.hidden = true;
+  });
+
   onInput(
     () => {
-      if (hasCrystal) {
+      if (hasCrystal && !canUploadItem) {
         player.trigger(Events.ON_REMOVE_CRYSTAL);
         hasCrystal = false;
         crystal.hidden = true;

@@ -16,8 +16,8 @@ export const mixConfig = {
     building: {
       from: 2,
       to: 10,
-      speed: 10,
-      loop: false,
+      speed: 15,
+      loop: true,
     },
   },
 };

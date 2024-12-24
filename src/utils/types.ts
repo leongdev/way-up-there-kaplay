@@ -78,6 +78,19 @@ export enum Events {
   ON_DOCK_POWER = "onDockPower",
   ON_HAS_POWER = "onHasPower",
   ON_REMOVE_POWER = "onRemovePower",
+
+  // Mix Machine Events
+  ON_UPLOAD_CRYSTAL = "onUploadCrystal",
+  ON_UPLOAD_POWER = "onUploadPower",
+
+  ON_UPLOAD_ITEM = "onUploadItem",
+  ON_FIRE_UPLOAD_CRYSTAL = "onFireUploadCrystal",
+  ON_FIRE_UPLOAD_POWER = "onFireUploadPower",
+
+  ON_ENABLE_UPLOAD = "onEnableUpload",
+  ON_DISABLE_UPLOAD = "onDisableUpload",
+  ON_MIX_START = "onMixStart",
+  ON_MIX_FINISH = "onMixFinish",
 }
 
 export enum Scenes {
