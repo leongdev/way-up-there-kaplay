@@ -38,6 +38,7 @@ export enum Objects {
   CRYSTAL = "crystal",
   POWER = "power",
   PROGRESS = "progress",
+  MIX_DISPLAY = "mix_display",
 }
 
 export enum Events {
