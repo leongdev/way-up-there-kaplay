@@ -91,6 +91,12 @@ export enum Events {
   ON_DISABLE_UPLOAD = "onDisableUpload",
   ON_MIX_START = "onMixStart",
   ON_MIX_FINISH = "onMixFinish",
+
+  ON_CREATE_ORB = "onCreateFuel",
+  ON_DOCK_ORB = "onDockFuel",
+  ON_HAS_ORB = "onHasFuel",
+  ON_REMOVE_ORB = "onRemoveFuel",
+  ON_COLLIDE_FUEL = "onCollideFuel",
 }
 
 export enum Scenes {
@@ -113,4 +119,5 @@ export interface CollisionObject {
 export enum ConsumableTypes {
   CRYSTAL = "crystal",
   POWER = "power",
+  ORB = "orb",
 }

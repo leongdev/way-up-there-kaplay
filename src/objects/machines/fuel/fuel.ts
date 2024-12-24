@@ -2,8 +2,10 @@ import { Vec2 } from "kaplay";
 import { k } from "../../../settings/kaplay";
 import { Events, Objects } from "../../../utils/types";
 import { fuelConfig } from "./config";
+import { InputConfig, InputMethod, onInput } from "../../../settings/inputs";
 
-let isBuildingFuel = false;
+let isBuildingFuel: boolean = false;
+let canAddFuel: boolean = false;
 
 export const getFuelMachine = (position: Vec2) => {
   k.loadSprite(Objects.FUEL_MACHINE, "sprites/fuel_machine.png", fuelConfig);
@@ -29,13 +31,35 @@ export const getFuelMachine = (position: Vec2) => {
     if (!isBuildingFuel) fuelMachine.play("idle");
   });
 
-  k.on(Events.ADD_FUEL, Objects.FUEL_LINE, () => {
+  k.on(Events.ON_COLLIDE_FUEL, Objects.PLAYER, (_, args) => {
+    const { colliding, hasOrb } = args;
+    if (colliding && hasOrb) canAddFuel = true;
+    else canAddFuel = false;
+  });
+
+  k.on(Events.ADD_FUEL, Objects.FUEL_MACHINE, () => {
+    isBuildingFuel = true;
     fuelMachine.play("building");
   });
 
   fuelMachine.onAnimEnd((anim: string) => {
-    if (anim === "building") fuelMachine.play("idle");
+    if (anim === "building") {
+      isBuildingFuel = false;
+      fuelMachine.play("idle");
+    }
   });
+
+  onInput(
+    () => {
+      if (canAddFuel) {
+        canAddFuel = false;
+        fuelMachine.trigger(Events.ADD_FUEL);
+      }
+    },
+    () => {},
+    InputMethod.PRESS,
+    InputConfig.fire
+  );
 
   return fuelMachine;
 };

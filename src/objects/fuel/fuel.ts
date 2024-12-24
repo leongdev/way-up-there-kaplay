@@ -99,7 +99,7 @@ export const getFuel = (position: Vec2) => {
     CAN_CONSUME_FUEL = false;
   });
 
-  k.on(Events.ADD_FUEL, Objects.FUEL_LINE, () => {
+  k.on(Events.ADD_FUEL, Objects.FUEL_MACHINE, () => {
     if (FUEL_NUMBER < 6) {
       fuelLine.play("fuel");
     }

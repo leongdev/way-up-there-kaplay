@@ -12,6 +12,8 @@ import { playerConfig } from "./config";
 import { consumableConfig } from "../crystal/config";
 import { getCrystal } from "../crystal/crytal";
 import { getPower } from "../power/power";
+import { orbConfig } from "../orb/config";
+import { getOrb } from "../orb/orb";
 
 const SPEED = 150;
 const THROW_FORCE = 6000;
@@ -28,12 +30,16 @@ let canControlShip: boolean = false;
 // Consumable Flag
 let hasCrystal: boolean = false;
 let hasPower: boolean = false;
+let hasOrb: boolean = false;
+
+// Upload Flag
 let canUploadItem: boolean = false;
 
 export function getPlayer(position: Vec2): GameObj {
   k.loadSprite(Objects.PLAYER, "sprites/player.png", playerConfig);
   k.loadSprite(Objects.CRYSTAL, "sprites/crystal.png", consumableConfig);
   k.loadSprite(Objects.POWER, "sprites/power.png", consumableConfig);
+  k.loadSprite(ConsumableTypes.ORB, "sprites/fuel.png", orbConfig);
 
   const player = k.add([
     k.sprite(Objects.PLAYER),
@@ -57,6 +63,7 @@ export function getPlayer(position: Vec2): GameObj {
   handlePrintPower();
   handleCrystal(player);
   handlePower(player);
+  handleOrb(player);
   handleUploadItem(player);
 
   return player;
@@ -94,6 +101,79 @@ const handleUploadItem = (player: GameObj) => {
       player.trigger(Events.ON_REMOVE_POWER);
     }
   });
+};
+
+const handleOrb = (player: GameObj) => {
+  const orb = k.add([
+    k.sprite(ConsumableTypes.ORB),
+    pos(player.pos.x, player.pos.y - 16),
+    anchor("bot"),
+    area(),
+    z(1),
+    ConsumableTypes.ORB,
+  ]);
+
+  orb.parent = player;
+  orb.hidden = true;
+
+  player.onUpdate(() => {
+    orb.pos = player.pos.sub(0, 16);
+  });
+
+  k.on(Events.ON_DOCK_ORB, ConsumableTypes.ORB, () => {
+    player.trigger(Events.ON_HAS_ORB);
+    hasOrb = true;
+    orb.hidden = false;
+  });
+
+  k.on(Events.ON_MIX_FINISH, Objects.MIX_MACHINE, () => {
+    hasOrb = true;
+    orb.hidden = false;
+    player.trigger(Events.ON_HAS_ORB);
+  });
+
+  k.on(Events.ADD_FUEL, Objects.FUEL_MACHINE, () => {
+    hasOrb = false;
+    orb.hidden = true;
+  });
+
+  player.onCollide(Objects.FUEL_MACHINE, () => {
+    if (hasOrb) {
+      canUploadItem = true;
+    }
+    player.trigger(Events.ON_COLLIDE_FUEL, {
+      colliding: true,
+      hasOrb,
+    });
+  });
+
+  player.onCollideEnd(Objects.FUEL_MACHINE, () => {
+    canUploadItem = false;
+    player.trigger(Events.ON_COLLIDE_FUEL, {
+      colliding: false,
+      hasOrb,
+    });
+  });
+
+  onInput(
+    () => {
+      if (hasOrb && !canUploadItem) {
+        canUploadItem = false;
+        player.trigger(Events.ON_REMOVE_ORB);
+        hasOrb = false;
+        orb.hidden = true;
+
+        const newOrb = getOrb(orb.pos);
+
+        newOrb.addForce(
+          vec2(direction ? THROW_FORCE : -THROW_FORCE, -THROW_FORCE)
+        );
+      }
+    },
+    () => {},
+    InputMethod.PRESS,
+    InputConfig.fire
+  );
 };
 
 const handlePower = (player: GameObj) => {
