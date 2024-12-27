@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 const kaplayCongrats = () => {
   return {
@@ -14,7 +15,7 @@ const kaplayCongrats = () => {
 
 export default defineConfig({
   // index.html out file will start with a relative path for script
-  base: "./",
+  base: "/way-up-there/",
   build: {
     // disable this for low bundle sizes
     sourcemap: true,
@@ -22,6 +23,7 @@ export default defineConfig({
   port: 3001,
   plugins: [
     // Disable messages removing this line
+    react(),
     kaplayCongrats(),
   ],
 });
