@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
-		"deploy": "bun run build && gh-pages -d dist",
+		"deploy": "gh-pages -d dist",
 		"dev": "vite",
 		"preview": "vite preview",
 		"zip": "npm run build && mkdir -p dist && zip -r dist/game.zip dist -x \"**/.DS_Store\""
