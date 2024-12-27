@@ -1,13 +1,17 @@
 {
 	"name": "way-up-there",
+	"homepage": "https://leongdev.github.io/way-up-there-light/",
+	"private": true,
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
+		"deploy": "bun run build && gh-pages -d dist",
 		"dev": "vite",
 		"preview": "vite preview",
 		"zip": "npm run build && mkdir -p dist && zip -r dist/game.zip dist -x \"**/.DS_Store\""
 	},
 	"dependencies": {
+		"gh-pages": "^6.2.0",
 		"kaplay": "^3001.0.5",
 		"uuid": "^11.0.3"
 	},
