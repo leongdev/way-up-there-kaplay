@@ -5,18 +5,18 @@
       "title": "🥫 Backlog",
       "cards": [
         {
-          "id": "00778e82-3779-4771-9825-af550aa325e2",
+          "id": "749b7ad5-cf21-4cd0-bcf8-584c07b57fdc",
           "listId": "a597b519-08a0-47e3-97d4-46a79d500ada",
-          "title": "Update Readme File",
+          "title": "Asteroids / Enemies",
           "description": "",
           "labels": [],
           "checkboxes": [],
           "comments": []
         },
         {
-          "id": "749b7ad5-cf21-4cd0-bcf8-584c07b57fdc",
+          "id": "00778e82-3779-4771-9825-af550aa325e2",
           "listId": "a597b519-08a0-47e3-97d4-46a79d500ada",
-          "title": "Asteroids / Enemies",
+          "title": "Update Readme File",
           "description": "",
           "labels": [],
           "checkboxes": [],
@@ -27,10 +27,15 @@
     {
       "id": "f47d9126-b7c2-400d-9f24-4554699a515d",
       "title": "🫕 Doing",
+      "cards": []
+    },
+    {
+      "id": "b916a0c5-1a5c-4ba9-a89a-d619b5928da7",
+      "title": "🍝 Done",
       "cards": [
         {
           "id": "00b238df-6d61-4be8-980b-a619997e71a8",
-          "listId": "f47d9126-b7c2-400d-9f24-4554699a515d",
+          "listId": "b916a0c5-1a5c-4ba9-a89a-d619b5928da7",
           "title": "Refactor player interaction, exploring Events",
           "description": "",
           "labels": [
@@ -68,13 +73,7 @@
             }
           ],
           "comments": []
-        }
-      ]
-    },
-    {
-      "id": "b916a0c5-1a5c-4ba9-a89a-d619b5928da7",
-      "title": "🍝 Done",
-      "cards": [
+        },
         {
           "id": "b6ec9c47-c32d-4b4b-a884-5fff189b66c2",
           "listId": "b916a0c5-1a5c-4ba9-a89a-d619b5928da7",

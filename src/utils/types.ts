@@ -39,6 +39,10 @@ export enum Objects {
   POWER = "power",
   PROGRESS = "progress",
   MIX_DISPLAY = "mix_display",
+  STARS = "stars",
+  ALERT = "alert",
+
+  ENEMY_A = "enemy_a",
 }
 
 export enum Events {

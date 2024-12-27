@@ -4,6 +4,7 @@ import { useCustomPostEffect } from "../hooks/useCustomPostEffect";
 import { useDebugger } from "../hooks/useDebugger";
 import { useFullScreen } from "../hooks/useFullScreen";
 import { levelConfig } from "../levels/level_1/config";
+import { getBrain } from "../objects/brain/brain";
 import { getController } from "../objects/controller/controller";
 import { getFuel } from "../objects/fuel/fuel";
 import { getGrass, GrassType } from "../objects/grass/grass";
@@ -14,6 +15,7 @@ import { getPowerPrinter } from "../objects/machines/power/power";
 import { getPlayer } from "../objects/player/player";
 import { getShip } from "../objects/ship/ship";
 import { getStair } from "../objects/stair/stair";
+import { getStarts } from "../objects/starts/stars";
 import { k } from "../settings/kaplay";
 import { Objects, Scenes } from "../utils/types";
 
@@ -65,4 +67,6 @@ k.scene(Scenes.INITIAL, () => {
   getCrystalPrinter(new Vec2(375, 109));
   getPowerPrinter(new Vec2(433, 219));
   getFuel(new Vec2(177, 210));
+  getStarts(new Vec2(90, 36));
+  getBrain(new Vec2(90, 36));
 });
