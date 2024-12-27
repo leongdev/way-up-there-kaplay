@@ -68,5 +68,5 @@ k.scene(Scenes.INITIAL, () => {
   getPowerPrinter(new Vec2(433, 219));
   getFuel(new Vec2(177, 210));
   getStarts(new Vec2(90, 36));
-  getBrain(new Vec2(90, 36));
+  getBrain(new Vec2(90, 56));
 });

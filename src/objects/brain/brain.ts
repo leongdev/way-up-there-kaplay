@@ -42,7 +42,6 @@ export const getBrain = (position: Vector2D) => {
         body({ gravityScale: 0.01 }),
         z(1),
         opacity(1),
-        area(),
         Objects.ALERT,
       ]);
 
@@ -80,6 +79,14 @@ const getEnemy1 = (position: Vector2D) => {
     if (HP <= 0) {
       enemy.destroy();
     }
+  });
+
+  enemy.onCollide(Objects.COLLIDER_GROUND, () => {
+    enemy.destroy();
+  });
+
+  enemy.onCollide(Objects.SHIP, () => {
+    enemy.destroy();
   });
 
   enemy.onAnimEnd((anim: string) => {
