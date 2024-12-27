@@ -15,7 +15,7 @@ const kaplayCongrats = () => {
 
 export default defineConfig({
   // index.html out file will start with a relative path for script
-  base: "/way-up-there/",
+  base: "/way-up-there-light/",
   build: {
     // disable this for low bundle sizes
     sourcemap: true,
