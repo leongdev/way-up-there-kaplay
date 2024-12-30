@@ -1,7 +1,15 @@
-# Tauri + React + Typescript
+# Way Up There - Typescript + Kaplay + Tauri
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+![alt text](docs/image.png) 
 
-## Recommended IDE Setup
+A typescript game made with [KAPLAY](https://kaplayjs.com/) and ported to windows using [TAURI 2.0](https://v2.tauri.app/)
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+# How to run
+
+```
+bun install
+```
+
+```
+bun run dev
+```
