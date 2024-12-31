@@ -5,15 +5,6 @@
       "title": "🥫 Backlog",
       "cards": [
         {
-          "id": "749b7ad5-cf21-4cd0-bcf8-584c07b57fdc",
-          "listId": "a597b519-08a0-47e3-97d4-46a79d500ada",
-          "title": "Asteroids / Enemies",
-          "description": "",
-          "labels": [],
-          "checkboxes": [],
-          "comments": []
-        },
-        {
           "id": "00778e82-3779-4771-9825-af550aa325e2",
           "listId": "a597b519-08a0-47e3-97d4-46a79d500ada",
           "title": "Update Readme File",
@@ -27,7 +18,17 @@
     {
       "id": "f47d9126-b7c2-400d-9f24-4554699a515d",
       "title": "🫕 Doing",
-      "cards": []
+      "cards": [
+        {
+          "id": "749b7ad5-cf21-4cd0-bcf8-584c07b57fdc",
+          "listId": "f47d9126-b7c2-400d-9f24-4554699a515d",
+          "title": "Asteroids / Enemies",
+          "description": "",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
+        }
+      ]
     },
     {
       "id": "b916a0c5-1a5c-4ba9-a89a-d619b5928da7",
