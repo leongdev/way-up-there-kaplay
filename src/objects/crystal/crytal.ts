@@ -1,4 +1,4 @@
-import { GameObj } from "kaplay";
+import { GameObj, Vec2 as V2 } from "kaplay";
 import { k } from "../../settings/kaplay";
 import { Events, Objects } from "../../utils/types";
 import { consumableConfig } from "./config";
@@ -7,7 +7,7 @@ import { InputConfig, InputMethod, onInput } from "../../settings/inputs";
 let canDock: boolean = false;
 let collidedObj: GameObj;
 
-export const getCrystal = (position) => {
+export const getCrystal = (position: V2) => {
   k.loadSprite(Objects.CRYSTAL, "sprites/crystal.png", consumableConfig);
 
   const consumable = k.add([
@@ -31,7 +31,7 @@ export const getCrystal = (position) => {
   return consumable;
 };
 
-const getConsumableGround = (position, type) => {
+const getConsumableGround = (position: V2, type: any) => {
   const consumable = k.add([
     sprite(type),
     pos(position),

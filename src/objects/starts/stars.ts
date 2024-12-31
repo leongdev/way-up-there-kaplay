@@ -1,10 +1,11 @@
+import { Vec2 as V2 } from "kaplay";
 import { k } from "../../settings/kaplay";
 import { Objects } from "../../utils/types";
 import { starsConfig } from "./config";
 
 const PARTICLE_RANGE = 60;
 
-export const getStarts = (position) => {
+export const getStarts = (position: V2) => {
   k.loadSprite(Objects.STARS, "sprites/stars.png", starsConfig);
 
   // Spawn one particle every 0.1 second

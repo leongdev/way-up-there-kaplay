@@ -1,4 +1,4 @@
-import { GameObj } from "kaplay";
+import { GameObj, Vec2 as V2 } from "kaplay";
 import { orbConfig } from "./config";
 import { ConsumableTypes, Events, Objects } from "../../utils/types";
 import { k } from "../../settings/kaplay";
@@ -7,7 +7,7 @@ import { InputConfig, InputMethod, onInput } from "../../settings/inputs";
 let canDock: boolean = false;
 let collidedObj: GameObj;
 
-export const getOrb = (position) => {
+export const getOrb = (position: V2) => {
   k.loadSprite(ConsumableTypes.ORB, "sprites/fuel.png", orbConfig);
 
   const consumable = k.add([
@@ -31,7 +31,7 @@ export const getOrb = (position) => {
   return consumable;
 };
 
-const getConsumableGround = (position, type) => {
+const getConsumableGround = (position: V2, type: any) => {
   const consumable = k.add([
     sprite(type),
     pos(position),

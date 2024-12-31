@@ -8,6 +8,7 @@ export const useColliders = (collisionObject: CollisionObject) => {
       area(),
       pos(collider.x, collider.y),
       body({ isStatic: true }),
+      //@ts-ignore
       color(color[0], color[1], color[2]),
       opacity(collisionObject.opacity),
       collider.width > collider.height

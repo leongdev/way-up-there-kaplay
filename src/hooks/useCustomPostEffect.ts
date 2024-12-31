@@ -26,5 +26,6 @@ export const useCustomPostEffect = (key: string, enableOnStart?: boolean) => {
 
 const enableEffect = () => {
   const effect = Object.keys(effects)[0];
+  //@ts-ignore
   usePostEffect(effect, effects[effect]());
 };
