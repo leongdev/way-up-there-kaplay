@@ -14,6 +14,11 @@ bun install
 bun run dev
 ```
 
+# How to play
+
+- Move Player: ``<`` ``>`` ``^`` ``v``  or  ``a`` ``d`` ``w`` ``s``
+- Interact with objects: ``space``  or  ``e`` 
+ 
 ## TODO:
 - [ ] Finishing game loop
 - [ ] End game screen
