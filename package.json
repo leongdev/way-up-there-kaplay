@@ -7,10 +7,10 @@
   "scripts": {
     "dev:browser": "vite",
     "build:browser": "tsc && vite build",
+    "deploy:browser": "gh-pages -d dist",
     "preview:browser": "vite preview",
     "dev": "tauri dev",
-    "build": "tauri build",
-    "deploy": "gh-pages -d dist"
+    "build": "tauri build"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
