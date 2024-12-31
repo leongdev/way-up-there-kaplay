@@ -1,5 +1,6 @@
 {
   "name": "way-up-there",
+  "homepage": "https://leongdev.github.io/way-up-there-kaplay",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -8,7 +9,8 @@
     "build:browser": "tsc && vite build",
     "preview:browser": "vite preview",
     "dev": "tauri dev",
-    "build": "tauri build"
+    "build": "tauri build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
