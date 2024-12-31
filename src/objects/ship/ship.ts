@@ -56,6 +56,10 @@ export const getShip = (position: Vec2) => {
     ship.play("idle");
   });
 
+  k.on(Events.ADD_FUEL, Objects.FUEL_MACHINE, () => {
+    CAN_FIRE = true;
+  });
+
   k.on(Events.ON_ENABLE_CONTROL_SHIP, Objects.CONTROLLER, () => {
     if (CAN_FIRE) {
       IS_FIRING = true;

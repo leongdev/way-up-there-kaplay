@@ -101,6 +101,8 @@ export enum Events {
   ON_HAS_ORB = "onHasFuel",
   ON_REMOVE_ORB = "onRemoveFuel",
   ON_COLLIDE_FUEL = "onCollideFuel",
+
+  GAME_OVER = "gameOver",
 }
 
 export enum Scenes {

@@ -1,6 +1,6 @@
 import { Vec2 } from "kaplay";
 import { k } from "../../settings/kaplay";
-import { Events, Objects } from "../../utils/types";
+import { Events, Objects, Scenes } from "../../utils/types";
 import { fuelIndicatorConfig, fuelLineConfig } from "./config";
 import { FUEL_DECREASE_DELAY } from "../../utils/constants";
 
@@ -36,6 +36,12 @@ export const getFuel = (position: Vec2) => {
     z(1),
     Objects.FUEL_LINE,
   ]);
+
+  k.on(Events.GAME_OVER, Objects.ENEMY_A, () => {
+    IS_FUEL_EMPTY = false;
+    FUEL_NUMBER = 5;
+    k.go(Scenes.INITIAL);
+  });
 
   fuelIndicator.play("idle");
 
@@ -122,9 +128,7 @@ export const getFuel = (position: Vec2) => {
 
     if (FUEL_NUMBER === 0 && !IS_FUEL_EMPTY) {
       FUEL_NUMBER = 0;
-      IS_FUEL_EMPTY = true;
       fuelIndicator.trigger(Events.ON_RUN_OUT_OF_ENERGY);
-      console.log("Fuel empty");
     }
   });
 };

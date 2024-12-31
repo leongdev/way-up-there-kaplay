@@ -1,6 +1,6 @@
 import { GameObj, Vec2 as Vector2D } from "kaplay";
 import { k } from "../../settings/kaplay";
-import { Objects } from "../../utils/types";
+import { Events, Objects } from "../../utils/types";
 import { alertConfig, enemyOneConfig } from "./config";
 
 const ENEMY_SPAWN_DELAY: number = 3;
@@ -82,10 +82,12 @@ const getEnemy1 = (position: Vector2D) => {
   });
 
   enemy.onCollide(Objects.COLLIDER_GROUND, () => {
+    enemy.trigger(Events.GAME_OVER);
     enemy.destroy();
   });
 
   enemy.onCollide(Objects.SHIP, () => {
+    enemy.trigger(Events.GAME_OVER);
     enemy.destroy();
   });
 
