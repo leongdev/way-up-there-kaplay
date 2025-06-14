@@ -1,30 +1,36 @@
 import { defineConfig } from "vite";
 
-// @ts-expect-error process is a nodejs global
-const host = process.env.TAURI_DEV_HOST;
+const kaplayCongrats = () => {
+  return {
+    name: "vite-plugin-kaplay-hello",
+    buildEnd() {
+      const line = "---------------------------------------------------------";
+      const msg = `🦖 Awesome pal! Send your game to us:\n\n💎 Discord: https://discord.com/invite/aQ6RuQm3TF \n💖 Donate to KAPLAY: https://opencollective.com/kaplay\n\ (you can disable this msg on vite.config)`;
 
-// https://vitejs.dev/config/
-export default defineConfig(async () => ({
-  // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
-  //
-  base: "/way-up-there-kaplay",
-  // 1. prevent vite from obscuring rust errors
-  clearScreen: false,
-  // 2. tauri expects a fixed port, fail if that port is not available
+      process.stdout.write(`\n${line}\n${msg}\n${line}\n`);
+    },
+  };
+};
+
+export default defineConfig({
+  // Use relative paths for Vercel deployment
+  base: "./",
   server: {
-    port: 1420,
-    strictPort: true,
-    host: host || false,
-    hmr: host
-      ? {
-          protocol: "ws",
-          host,
-          port: 1421,
-        }
-      : undefined,
-    watch: {
-      // 3. tell vite to ignore watching `src-tauri`
-      ignored: ["**/src-tauri/**"],
+    port: 3001,
+  },
+  build: {
+    // disable this for low bundle sizes
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          kaplay: ["kaplay"],
+        },
+      },
     },
   },
-}));
+  plugins: [
+    // Disable messages removing this line
+    kaplayCongrats(),
+  ],
+});
